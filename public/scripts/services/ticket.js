@@ -1,6 +1,6 @@
 angular
   .module('khe')
-  .factory('Ticket', ['$http', 'User', function ($http, User) {
+  .factory('Ticket', ['$http', 'User', 'Config', function ($http, User, Config) {
 
     var Ticket = function () {
 
@@ -13,7 +13,7 @@ angular
       self.list = function () {
         var req = user.authorize({
           method: 'GET',
-          url: '/api/tickets'
+          url: Config.resolve('/api/tickets')
         });
         return $http(req);
       };
@@ -25,7 +25,7 @@ angular
       self.get = function (id) {
         var req = user.authorize({
           method: 'GET',
-          url: '/api/tickets/'+id
+          url: Config.resolve('/api/tickets/'+id)
         });
         return $http(req);
       };
@@ -37,7 +37,7 @@ angular
       self.create = function (ticket) {
         var req = {
           method: 'POST',
-          url: '/api/tickets',
+          url: Config.resolve('/api/tickets'),
           data: ticket
         };
         return $http(req);
@@ -51,7 +51,7 @@ angular
       self.update = function (id, toUpdate) {
         var req = user.authorize({
           method: 'PATCH',
-          url: '/api/tickets/'+id,
+          url: Config.resolve('/api/tickets/'+id),
           data: toUpdate
         });
         return $http(req);
@@ -64,7 +64,7 @@ angular
       self.delete = function (id) {
         var req = user.authorize({
           method: 'DELETE',
-          url: '/api/tickets/'+id
+          url: Config.resolve('/api/tickets/'+id)
         });
         return $http(req);
       };

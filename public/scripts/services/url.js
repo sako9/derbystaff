@@ -4,7 +4,7 @@
 */
 angular
   .module('khe')
-  .factory('Url', ['$http', 'User', function ($http, User) {
+  .factory('Url', ['$http', 'User', 'Config', function ($http, User, Config) {
 
     var Url = function () {
 
@@ -19,7 +19,7 @@ angular
       this.shorten = function (full, small) {
         var req = user.authorize({
           method: 'POST',
-          url: '/api/urls/shorten',
+          url: Config.resolve('/api/urls/shorten'),
           data: {
             full: full,
             short: small
@@ -36,7 +36,7 @@ angular
       this.remove = function (id) {
         var req = user.authorize({
           method: 'POST',
-          url: '/api/urls/remove',
+          url: Config.resolve('/api/urls/remove'),
           data: {
             id: id
           }
@@ -51,7 +51,7 @@ angular
       this.list = function () {
         var req = user.authorize({
           method: 'GET',
-          url: '/api/urls'
+          url: Config.resolve('/api/urls')
         });
         return $http(req);
       };

@@ -5,7 +5,7 @@
 */
 angular
   .module('khe')
-  .factory('User', ['$http', '$cookieStore', '$filter', function ($http, $cookies, $filter) {
+  .factory('User', ['$http', '$cookieStore', '$filter', 'Config', function ($http, $cookies, $filter, Config) {
 
     var User = function () {
 
@@ -70,7 +70,7 @@ angular
       this.register = function (user) {
         var req = {
           method: 'POST',
-          url: '/api/users/register',
+          url: Config.resolve('/api/users/register'),
           data: {
             email: user.email,
             password: user.password
@@ -87,7 +87,7 @@ angular
       this.activate = function (userId) {
         var req = {
           method: 'GET',
-          url: '/api/users/activate/' + userId
+          url: Config.resolve('/api/users/activate/' + userId)
         };
         return $http(req);
       };
@@ -100,7 +100,7 @@ angular
       this.login = function (user) {
         var req = {
           method: 'POST',
-          url: '/api/users/login',
+          url: Config.resolve('/api/users/login'),
           data: {
             email: user.email,
             password: user.password
@@ -116,7 +116,7 @@ angular
       this.list = function () {
         var req = this.authorize({
           method: 'GET',
-          url: '/api/users'
+          url: Config.resolve('/api/users')
         });
         return $http(req);
       };
@@ -130,7 +130,7 @@ angular
       this.role = function (userId, role) {
         var req = this.authorize({
           method: 'POST',
-          url: '/api/users/role/' + userId,
+          url: Config.resolve('/api/users/role/' + userId),
           data: {
             role: role
           }
@@ -146,7 +146,7 @@ angular
       this.unsubscribe = function (userId) {
         var req = this.authorize({
           method: 'POST',
-          url: '/api/users/unsubscribe',
+          url: Config.resolve('/api/users/unsubscribe'),
           data: {
             userId: userId
           }
@@ -162,7 +162,7 @@ angular
       this.delete = function (userId) {
         var req = this.authorize({
           method: 'POST',
-          url: '/api/users/delete',
+          url: Config.resolve('/api/users/delete'),
           data: {
             userId: userId
           }

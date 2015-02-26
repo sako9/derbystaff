@@ -1,6 +1,6 @@
 angular
   .module('khe')
-  .factory('Email', ['$http', 'User', function ($http, User) {
+  .factory('Email', ['$http', 'User', 'Config', function ($http, User, Config) {
 
     var Email = function () {
 
@@ -14,7 +14,7 @@ angular
       this.send = function (email) {
         var req = user.authorize({
           method: 'POST',
-          url: '/api/emails/send',
+          url: Config.resolve('/api/emails/send'),
           data: email
         });
         return $http(req);
@@ -27,7 +27,7 @@ angular
       this.list = function () {
         var req = user.authorize({
           method: 'GET',
-          url: '/api/emails'
+          url: Config.resolve('/api/emails')
         });
         return $http(req);
       };

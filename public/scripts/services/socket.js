@@ -1,5 +1,7 @@
 angular
   .module('khe')
-  .factory('Socket', ['socketFactory', function (socketFactory) {
-    return socketFactory();
+  .service('Socket', [function () {
+
+    return io.connect('http://localhost:3000');
+
   }]);
