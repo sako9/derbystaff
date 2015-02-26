@@ -5,7 +5,7 @@ angular
       templateUrl: '/views/staff/checkin.html'
     });
   }])
-  .controller('StaffCheckInCtrl', ['User', 'Application', 'Socket', function (User, Application, Socket) {
+  .controller('StaffCheckInCtrl', ['User', 'Application', 'Socket', '$scope', function (User, Application, Socket, $scope) {
 
     var self = this;
     var user = new User();
