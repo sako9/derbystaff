@@ -1,0 +1,11 @@
+*.log
+bower_components
+.vagrant
+pids
+*.pid
+*.seed
+lib-cov
+coverage
+node_modules
+build/Release
+.grunt
