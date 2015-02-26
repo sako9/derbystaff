@@ -1,0 +1,24 @@
+{
+  "name": "kenthackenough-ui-staff",
+  "version": "1.0.0",
+  "description": "This is the user interface for the hackathon management system. It's an AngularJS app that connects to the `hacksu/kenthackenough` repository.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hacksu/kenthackenough-ui-staff.git"
+  },
+  "author": "Paul Dilyard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hacksu/kenthackenough-ui-staff/issues"
+  },
+  "homepage": "https://github.com/hacksu/kenthackenough-ui-staff",
+  "dependencies": {
+    "bower": "1.3.x",
+    "express": "4.12.x",
+    "grunt": "0.4.x"
+  }
+}
