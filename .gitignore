@@ -1,5 +1,5 @@
 *.log
-bower_components
+public/bower_components
 .vagrant
 pids
 *.pid
@@ -9,3 +9,4 @@ coverage
 node_modules
 build/Release
 .grunt
+config_example.js
