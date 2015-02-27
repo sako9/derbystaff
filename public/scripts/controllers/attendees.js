@@ -1,8 +1,8 @@
 angular
   .module('khe')
   .config(['$routeProvider', function ($router) {
-    $router.when('/staff/attendees', {
-      templateUrl: '/views/staff/attendees.html'
+    $router.when('/attendees', {
+      templateUrl: '/views/attendees.html'
     });
   }])
   .controller('StaffAttendeesCtrl', ['User', 'Application', function (User, Application) {

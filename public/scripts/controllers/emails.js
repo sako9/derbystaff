@@ -2,11 +2,11 @@ angular
   .module('khe')
   .config(['$routeProvider', function ($router) {
     $router
-      .when('/staff/emails', {
-        templateUrl: '/views/staff/emails.html'
+      .when('/emails', {
+        templateUrl: '/views/emails.html'
       })
-      .when('/staff/emails/new', {
-        templateUrl: '/views/staff/emails-new.html'
+      .when('/emails/new', {
+        templateUrl: '/views/emails-new.html'
       });
   }])
   .controller('StaffEmailCtrl', ['User', 'Email', function (User, Email) {
