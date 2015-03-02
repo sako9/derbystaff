@@ -1,5 +1,5 @@
 *.log
-public/bower_components
+bower_components
 .vagrant
 pids
 *.pid
