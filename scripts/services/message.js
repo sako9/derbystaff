@@ -14,7 +14,7 @@ angular
       self.list = function () {
         var req = {
           method: 'GET',
-          url: config.api + '/api/messages')
+          url: config.api + '/api/messages'
         };
         return $http(req);
       };
