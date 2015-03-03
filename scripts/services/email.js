@@ -14,7 +14,7 @@ angular
       this.send = function (email) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/emails/send'),
+          url: config.api + '/api/emails/send',
           data: email
         });
         return $http(req);
@@ -27,7 +27,7 @@ angular
       this.list = function () {
         var req = user.authorize({
           method: 'GET',
-          url: Config.resolve('/api/emails')
+          url: config.api + '/api/emails'
         });
         return $http(req);
       };

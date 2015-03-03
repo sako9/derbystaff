@@ -23,7 +23,7 @@ angular
       this.submit = function (application) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/application/submit'),
+          url: config.api + '/api/application/submit',
           data: application
         });
         return $http(req);
@@ -37,7 +37,7 @@ angular
       this.update = function (application) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/application/update'),
+          url: config.api + '/api/application/update',
           data: application
         });
         return $http(req);
@@ -51,7 +51,7 @@ angular
       this.rsvp = function (going) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/application/rsvp'),
+          url: config.api + '/api/application/rsvp',
           data: {
             going: going
           }
@@ -66,7 +66,7 @@ angular
       this.get = function () {
         var req = user.authorize({
           method: 'GET',
-          url: Config.resolve('/api/application')
+          url: config.api + '/api/application'
         });
         return $http(req);
       };
@@ -80,7 +80,7 @@ angular
       this.status = function (userId, status) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/application/status'),
+          url: config.api + '/api/application/status',
           data: {
             userId: userId,
             status: status
@@ -97,7 +97,7 @@ angular
       this.remove = function (userId) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/application/remove'),
+          url: config.api + '/api/application/remove',
           data: {
             userId: userId
           }
@@ -113,7 +113,7 @@ angular
       this.quick = function (quickApp) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/application/quick'),
+          url: config.api + '/api/application/quick',
           data: quickApp
         });
         return $http(req);
@@ -129,7 +129,7 @@ angular
       this.updateById = function (userId, data) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/application/update/' + userId),
+          url: config.api + '/api/application/update/' + userId,
           data: data
         });
         return $http(req);

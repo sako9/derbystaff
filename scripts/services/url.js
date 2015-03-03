@@ -19,7 +19,7 @@ angular
       this.shorten = function (full, small) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/urls/shorten'),
+          url: config.api + '/api/urls/shorten',
           data: {
             full: full,
             short: small
@@ -36,7 +36,7 @@ angular
       this.remove = function (id) {
         var req = user.authorize({
           method: 'POST',
-          url: Config.resolve('/api/urls/remove'),
+          url: config.api + '/api/urls/remove',
           data: {
             id: id
           }
@@ -51,7 +51,7 @@ angular
       this.list = function () {
         var req = user.authorize({
           method: 'GET',
-          url: Config.resolve('/api/urls')
+          url: config.api + '/api/urls'
         });
         return $http(req);
       };
