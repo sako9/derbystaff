@@ -13,7 +13,7 @@ angular
       self.list = function () {
         var req = user.authorize({
           method: 'GET',
-          url: config.api + '/api/tickets'
+          url: config.api + '/tickets'
         });
         return $http(req);
       };
@@ -25,7 +25,7 @@ angular
       self.get = function (id) {
         var req = user.authorize({
           method: 'GET',
-          url: config.api + '/api/tickets/'+id
+          url: config.api + '/tickets/'+id
         });
         return $http(req);
       };
@@ -37,7 +37,7 @@ angular
       self.create = function (ticket) {
         var req = {
           method: 'POST',
-          url: config.api + '/api/tickets',
+          url: config.api + '/tickets',
           data: ticket
         };
         return $http(req);
@@ -51,7 +51,7 @@ angular
       self.update = function (id, toUpdate) {
         var req = user.authorize({
           method: 'PATCH',
-          url: config.api + '/api/tickets/'+id,
+          url: config.api + '/tickets/'+id,
           data: toUpdate
         });
         return $http(req);
@@ -64,7 +64,7 @@ angular
       self.delete = function (id) {
         var req = user.authorize({
           method: 'DELETE',
-          url: config.api + '/api/tickets/'+id
+          url: config.api + '/tickets/'+id
         });
         return $http(req);
       };

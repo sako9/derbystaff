@@ -14,7 +14,7 @@ angular
       self.list = function () {
         var req = {
           method: 'GET',
-          url: config.api + '/api/messages'
+          url: config.api + '/messages'
         };
         return $http(req);
       };
@@ -27,7 +27,7 @@ angular
       self.get = function (id) {
         var req = {
           method: 'GET',
-          url: config.api + '/api/messages/' + id
+          url: config.api + '/messages/' + id
         };
         return $http(req);
       };
@@ -40,7 +40,7 @@ angular
       self.create = function (text) {
         var req = user.authorize({
           method: 'POST',
-          url: config.api + '/api/messages',
+          url: config.api + '/messages',
           data: {text: text}
         });
         return $http(req);
@@ -54,7 +54,7 @@ angular
       self.delete = function (id) {
         var req = user.authorize({
           method: 'DELETE',
-          url: config.api + '/api/messages/' + id
+          url: config.api + '/messages/' + id
         });
         return $http(req);
       };

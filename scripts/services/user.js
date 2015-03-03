@@ -70,7 +70,7 @@ angular
       this.register = function (user) {
         var req = {
           method: 'POST',
-          url: config.api + '/api/users/register',
+          url: config.api + '/users/register',
           data: {
             email: user.email,
             password: user.password
@@ -87,7 +87,7 @@ angular
       this.activate = function (userId) {
         var req = {
           method: 'GET',
-          url: config.api + '/api/users/activate/' + userId
+          url: config.api + '/users/activate/' + userId
         };
         return $http(req);
       };
@@ -100,7 +100,7 @@ angular
       this.login = function (user) {
         var req = {
           method: 'POST',
-          url: config.api + '/api/users/login',
+          url: config.api + '/users/login',
           data: {
             email: user.email,
             password: user.password
@@ -116,7 +116,7 @@ angular
       this.list = function () {
         var req = this.authorize({
           method: 'GET',
-          url: config.api + '/api/users'
+          url: config.api + '/users'
         });
         return $http(req);
       };
@@ -130,7 +130,7 @@ angular
       this.role = function (userId, role) {
         var req = this.authorize({
           method: 'POST',
-          url: config.api + '/api/users/role/' + userId,
+          url: config.api + '/users/role/' + userId,
           data: {
             role: role
           }
@@ -146,7 +146,7 @@ angular
       this.unsubscribe = function (userId) {
         var req = this.authorize({
           method: 'POST',
-          url: config.api + '/api/users/unsubscribe',
+          url: config.api + '/users/unsubscribe',
           data: {
             userId: userId
           }
@@ -162,7 +162,7 @@ angular
       this.delete = function (userId) {
         var req = this.authorize({
           method: 'POST',
-          url: config.api + '/api/users/delete',
+          url: config.api + '/users/delete',
           data: {
             userId: userId
           }
