@@ -9,4 +9,4 @@ coverage
 node_modules
 build/Release
 .grunt
-config_example.js
+config.js
