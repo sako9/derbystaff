@@ -1,6 +1,6 @@
 angular
   .module('khe')
-  .factory('Ticket', ['$http', 'User', 'Config', function ($http, User, Config) {
+  .factory('Ticket', ['$http', 'User', function ($http, User) {
 
     var Ticket = function () {
 

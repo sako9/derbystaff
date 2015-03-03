@@ -1,6 +1,6 @@
 angular
   .module('khe')
-  .factory('Email', ['$http', 'User', 'Config', function ($http, User, Config) {
+  .factory('Email', ['$http', 'User', function ($http, User) {
 
     var Email = function () {
 

@@ -5,7 +5,7 @@
 */
 angular
   .module('khe')
-  .factory('User', ['$http', '$cookieStore', '$filter', 'Config', function ($http, $cookies, $filter, Config) {
+  .factory('User', ['$http', '$cookieStore', '$filter', function ($http, $cookies, $filter) {
 
     var User = function () {
 

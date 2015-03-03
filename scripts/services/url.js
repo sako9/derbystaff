@@ -4,7 +4,7 @@
 */
 angular
   .module('khe')
-  .factory('Url', ['$http', 'User', 'Config', function ($http, User, Config) {
+  .factory('Url', ['$http', 'User', function ($http, User) {
 
     var Url = function () {
 
