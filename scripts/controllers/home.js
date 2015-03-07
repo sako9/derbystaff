@@ -16,4 +16,9 @@ angular
       $location.path('/login');
     }
 
+    self.logout = function () {
+      user.removeMe();
+      $location.path('/login');
+    };
+
   }]);
