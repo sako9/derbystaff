@@ -3,10 +3,12 @@ angular
   .config(['$routeProvider', function ($router) {
     $router
       .when('/emails', {
-        templateUrl: '/views/emails.html'
+        templateUrl: '/views/emails.html',
+        controller: 'StaffEmailCtrl'
       })
       .when('/emails/new', {
-        templateUrl: '/views/emails-new.html'
+        templateUrl: '/views/emails-new.html',
+        controller: 'StaffEmailCtrl'
       });
   }])
   .controller('StaffEmailCtrl', ['User', 'Email', function (User, Email) {

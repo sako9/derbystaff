@@ -2,7 +2,8 @@ angular
   .module('khe')
   .config(['$routeProvider', function ($router) {
     $router.when('/live', {
-      templateUrl: '/views/live.html'
+      templateUrl: '/views/live.html',
+      controller: 'LiveCtrl'
     });
   }])
   .controller('LiveCtrl', ['User', 'Message', 'Socket', function (User, Message, Socket) {

@@ -3,7 +3,8 @@ angular
   .config(['$routeProvider', function ($router) {
     $router
       .when('/', {
-        templateUrl: '/views/home.html'
+        templateUrl: '/views/home.html',
+        controller: 'StaffHomeCtrl'
       });
   }])
   .controller('StaffHomeCtrl', ['User', '$location', function (User, $location) {

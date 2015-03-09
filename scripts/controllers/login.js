@@ -2,7 +2,8 @@ angular
   .module('khe')
   .config(['$routeProvider', function ($router) {
     $router.when('/login', {
-      templateUrl: '/views/login.html'
+      templateUrl: '/views/login.html',
+      controller: 'StaffLoginCtrl'
     });
   }])
   .controller('StaffLoginCtrl', ['User', '$location', function (User, $location) {
