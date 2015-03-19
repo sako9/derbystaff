@@ -72,13 +72,11 @@ angular
 
     // Display users with submitted applications
     self.showApplied = function () {
-      console.log(self.applied);
       self.current = self.applied;
     };
 
     // Display users that have RSVPd yes
     self.showGoing = function () {
-      console.log(self.going);
       self.current = self.going;
     };
 
