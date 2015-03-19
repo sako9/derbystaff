@@ -213,7 +213,7 @@ angular
           if (user.application.going === undefined) {
             user.application.going = 'None';
           } else if (user.application.going === false) {
-            user.applicaiton.going = 'Not Going';
+            user.application.going = 'Not Going';
           } else {
             user.application.going = 'Going';
           }
