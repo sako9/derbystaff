@@ -19,22 +19,19 @@ angular
 
     function updateCount() {
       self.count = self.users.filter(function (user) {
-        return user.application.checked;
+        return user.application && user.application.checked;
       }).length;
     }
 
     // Populate our user list
     function get() {
-      user.list().
+      application.list().
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          self.users = data.users;
-          updateCount();
-        }
+        self.users = data.users;
+        updateCount();
       }).
-      error(function () {
-        self.errors = ['An internal error occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error occurred'];
       });
     }
     get();
@@ -63,15 +60,12 @@ angular
     // Submit the quick registration form
     self.register = function () {
       self.quickApp.phone = self.quickApp.phone.replace(/\D/g,'');
-      application.quick(self.quickApp).
+      user.quick(self.quickApp).
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          self.quickApp = {};
-        }
+        self.quickApp = {};
       }).
-      error(function () {
-        self.errors = ['An internal error occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
@@ -80,19 +74,16 @@ angular
       application.updateById(user._id, {
         checked: user.application.checked
       }).
-      success(function (data) {
-        self.errors = data.errors;
-      }).
-      error(function () {
-        self.errors = ['An internal error occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
     // Save the currently edited user
     self.saveQuickEdit = function (user) {
       application.updateById(user._id, {
-        name: user.application.name,
-        phone: user.application.phone,
+        name: user.app.name,
+        phone: user.app.phone,
         submitted: true,
         status: 'approved',
         going: true,
@@ -105,10 +96,10 @@ angular
         door: true
       }).
       success(function (data) {
-        self.errors = data.errors;
+        console.log(data);
       }).
-      error(function () {
-        self.errors = ['An internal error has occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error has occurred'];
       });
     };
 

@@ -38,16 +38,16 @@ angular
       * Delete the stored user
       */
       this.removeMe = function () {
-        if (Modernizr.localstorage) {
-          localStorage.removeItem('me');
-        } else {
-          $cookies.remove('me');
-        }
         var req = this.authorize({
           method: 'DELETE',
           url: config.api + '/users/token'
         });
         $http(req);
+        if (Modernizr.localstorage) {
+          localStorage.removeItem('me');
+        } else {
+          $cookies.remove('me');
+        }
       };
 
       /**

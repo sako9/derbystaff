@@ -18,17 +18,14 @@ angular
     self.updatable = [];
 
     // Get all users
-    userModel.list().
+    applicationModel.list().
     success(function (data) {
-      self.errors = data.errors;
-      if (!self.errors) {
-        self.users = data.users;
-        readable();
-        self.updatable = self.current = self.users;
-      }
+      self.users = data.users;
+      readable();
+      self.updatable = self.current = self.users;
     }).
-    error(function () {
-      self.errors = ['An internal error occurred'];
+    error(function (data) {
+      self.errors = data.errors || ['An internal error has occurred'];
     });
 
     // Display all users
@@ -39,56 +36,56 @@ angular
     // Display users with submitted applications
     self.applied = function () {
       self.current = self.users.filter(function (user) {
-        return user.application.submitted;
+        return user.application;
       });
     };
 
     // Display users that have RSVPd yes
     self.going = function () {
       self.current = self.users.filter(function (user) {
-        return user.application.going == 'Yes';
+        return user.application && user.application.going;
       });
     };
 
     // Display approved users
     self.approved = function () {
       self.current = self.users.filter(function (user) {
-        return user.application.status == 'approved';
+        return user.application && user.application.status == 'approved';
       });
     };
 
     // Display waitlisted users
     self.waitlisted = function () {
       self.current = self.users.filter(function (user) {
-        return user.application.status == 'waitlisted';
+        return user.application && user.application.status == 'waitlisted';
       });
     };
 
     // Display pending users
     self.pending = function () {
       self.current = self.users.filter(function (user) {
-        return user.application.status == 'pending';
+        return user.application && user.application.status == 'pending';
       });
     };
 
     // Display denied users
     self.denied = function () {
       self.current = self.users.filter(function (user) {
-        return user.application.status == 'denied';
+        return user.application && user.application.status == 'denied';
       });
     };
 
     // Display users that have requested travel
     self.travel = function () {
       self.current = self.users.filter(function (user) {
-        return user.application.travel == 'Yes';
+        return user.application && user.application.travel == 'Yes';
       });
     };
 
     // Display only checked in users
     self.checked = function () {
       self.current = self.users.filter(function (user) {
-        return user.application.checked == 'Yes';
+        return user.application && user.application.checked == 'Yes';
       });
     };
 
@@ -118,11 +115,10 @@ angular
         status: user.application.status
       }).
       success(function (data) {
-        self.errors = data.errors;
         user.editingStatus = false;
       }).
       error(function (data) {
-        self.errors = ['An internal error occurred'];
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
@@ -145,11 +141,10 @@ angular
         checked: checked
       }).
       success(function (data) {
-        self.errors = data.errors;
         user.editingChecked = false;
       }).
       error(function (data) {
-        self.errors = ['An internal error occurred'];
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
@@ -167,13 +162,12 @@ angular
 
     // Save the role of a user
     self.saveRole = function (user) {
-      userModel.role(user._id, user.role).
+      userModel.updateById(user._id, {role: user.role}).
       success(function (data) {
-        self.errors = data.errors;
         user.editingRole = false;
       }).
       error(function (data) {
-        self.errors = ['An internal error occurred'];
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
@@ -188,7 +182,7 @@ angular
     function readable() {
       for (var i = 0; i < self.users.length; i++) {
         var user = self.users[i];
-        if (user.application.submitted) {
+        if (user.application) {
           switch (user.application.shirt) {
             case 'S':
               user.application.shirt = 'Small';

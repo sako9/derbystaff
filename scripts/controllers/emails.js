@@ -26,16 +26,13 @@ angular
     function get() {
       email.list().
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          if (data.emails.length == 0) {
-            self.errors = ['No messages have been sent yet'];
-          }
-          self.emails = data.emails;
+        if (data.emails.length == 0) {
+          self.errors = ['No messages have been sent yet'];
         }
+        self.emails = data.emails;
       }).
-      error(function () {
-        self.errors = ['An internal error occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error occurred'];
       });
     }
     get();
@@ -53,7 +50,7 @@ angular
             where = {"role": 'staff'};
             break;
           case 'applied':
-            where = {"application.submitted": true};
+            where = {"application": {$not: null}};
             break;
           case 'going':
             where = {"application.going": true};
@@ -86,15 +83,12 @@ angular
           }
         }).
         success(function (data) {
-          self.errors = data.errors;
-          if (!data.errors) {
-            self.new = {};
-            self.new.group = 'all';
-            self.successes = ['Your message has been sent'];
-          }
+          self.new = {};
+          self.new.group = 'all';
+          self.successes = ['Your message has been sent'];
         }).
-        error(function () {
-          self.errors = ['An internal error has occurred'];
+        error(function (data) {
+          self.errors = data.errors || ['An internal error has occurred'];
         });
       } else {
         // We have a list of individual emails
@@ -106,15 +100,12 @@ angular
           }
         }).
         success(function (data) {
-          self.errors = data.errors;
-          if (!data.errors) {
-            self.new = {};
-            self.new.group = 'all';
-            self.successes = ['Your message has been sent'];
-          }
+          self.new = {};
+          self.new.group = 'all';
+          self.successes = ['Your message has been sent'];
         }).
         error(function () {
-          self.errors = ['An internal error has occurred'];
+          self.errors = data.errors || ['An internal error has occurred'];
         });
       }
     };

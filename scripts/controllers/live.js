@@ -19,13 +19,10 @@ angular
     function get() {
       message.list().
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          self.messages = data.messages;
-        }
+        self.messages = data.messages;
       }).
-      error(function () {
-        self.errors = ['An internal error has occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error has occurred'];
       });
     }
     get();
@@ -35,24 +32,18 @@ angular
     self.create = function () {
       message.create(self.new.text).
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          self.new = {};
-        }
+        self.new = {};
       }).
-      error(function () {
-        self.errors = ['An internal error had occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error had occurred'];
       });
     };
 
     // Delete a message
     self.delete = function (m) {
       message.delete(m._id).
-      success(function (data) {
-        self.errors = data.errors;
-      }).
-      error(function () {
-        self.errors = ['An internal error has occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error has occurred'];
       });
     };
 
