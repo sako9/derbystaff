@@ -15,6 +15,7 @@ angular
 
     self.users = [];
     self.current = [];
+    self.applied = [];
     self.updatable = [];
 
     // Get all users
@@ -25,6 +26,39 @@ angular
         self.users = data.users;
         readable();
         self.updatable = self.current = self.users;
+
+        self.applied = self.users.filter(function (user) {
+          return user.application.submitted;
+        });
+
+        self.going = self.users.filter(function (user) {
+          return user.application.going == 'Yes';
+        });
+
+        self.approved = self.users.filter(function (user) {
+          return user.application.status == 'approved';
+        });
+
+        self.waitlisted = self.users.filter(function (user) {
+          return user.application.status == 'waitlisted';
+        });
+
+        self.pending = self.users.filter(function (user) {
+          return user.application.status == 'pending';
+        });
+
+        self.denied = self.users.filter(function (user) {
+          return user.application.status == 'denied';
+        });
+
+        self.travel = self.users.filter(function (user) {
+          return user.application.travel == 'Yes';
+        });
+
+        self.checked = self.users.filter(function (user) {
+          return user.application.checked == 'Yes';
+        });
+
       }
     }).
     error(function () {
@@ -37,59 +71,45 @@ angular
     };
 
     // Display users with submitted applications
-    self.applied = function () {
-      self.current = self.users.filter(function (user) {
-        return user.application.submitted;
-      });
+    self.showApplied = function () {
+      console.log(self.applied);
+      self.current = self.applied;
     };
 
     // Display users that have RSVPd yes
-    self.going = function () {
-      self.current = self.users.filter(function (user) {
-        return user.application.going == 'Yes';
-      });
+    self.showGoing = function () {
+      console.log(self.going);
+      self.current = self.going;
     };
 
     // Display approved users
-    self.approved = function () {
-      self.current = self.users.filter(function (user) {
-        return user.application.status == 'approved';
-      });
+    self.showApproved = function () {
+      self.current = self.approved;
     };
 
     // Display waitlisted users
-    self.waitlisted = function () {
-      self.current = self.users.filter(function (user) {
-        return user.application.status == 'waitlisted';
-      });
+    self.showWaitlisted = function () {
+      self.current = self.waitlisted;
     };
 
     // Display pending users
-    self.pending = function () {
-      self.current = self.users.filter(function (user) {
-        return user.application.status == 'pending';
-      });
+    self.showPending = function () {
+      self.current = self.pending;
     };
 
     // Display denied users
-    self.denied = function () {
-      self.current = self.users.filter(function (user) {
-        return user.application.status == 'denied';
-      });
+    self.showDenied = function () {
+      self.current = self.denied;
     };
 
     // Display users that have requested travel
-    self.travel = function () {
-      self.current = self.users.filter(function (user) {
-        return user.application.travel == 'Yes';
-      });
+    self.showTravel = function () {
+      self.current = self.travel;
     };
 
     // Display only checked in users
-    self.checked = function () {
-      self.current = self.users.filter(function (user) {
-        return user.application.checked == 'Yes';
-      });
+    self.showChecked = function () {
+      self.current = self.checked;
     };
 
     // Expand a user

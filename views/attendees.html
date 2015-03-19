@@ -2,15 +2,15 @@
   <requirestaff user="att.user" error="true">
     <staffheader></staffheader>
     <staffsidebar>
-      <li><a ng-click="att.all()">All</a></li>
-      <li><a ng-click="att.applied()">Applied</a></li>
-      <li><a ng-click="att.going()">Going</a></li>
-      <li><a ng-click="att.approved()">Approved</a></li>
-      <li><a ng-click="att.waitlisted()">Waitlisted</a></li>
-      <li><a ng-click="att.pending()">Pending</a></li>
-      <li><a ng-click="att.denied()">Denied</a></li>
-      <li><a ng-click="att.travel()">Travel Requests</a></li>
-      <li><a ng-click="att.checked()">Checked In</a></li>
+      <li><a ng-click="att.all()">All ({{att.users.length}})</a></li>
+      <li><a ng-click="att.showApplied()">Applied ({{att.applied.length}})</a></li>
+      <li><a ng-click="att.showGoing()">Going ({{att.going.length}})</a></li>
+      <li><a ng-click="att.showApproved()">Approved ({{att.approved.length}})</a></li>
+      <li><a ng-click="att.showWaitlisted()">Waitlisted ({{att.waitlisted.length}})</a></li>
+      <li><a ng-click="att.showPending()">Pending ({{att.pending.length}})</a></li>
+      <li><a ng-click="att.showDenied()">Denied ({{att.denied.length}})</a></li>
+      <li><a ng-click="att.showTravel()">Travel Requests ({{att.travel.length}})</a></li>
+      <li><a ng-click="att.showChecked()">Checked In ({{att.checked.length}})</a></li>
       <li class="divider"></li>
       <li><a href="/attendees/checkin">Check In</a></li>
     </staffsidebar>
