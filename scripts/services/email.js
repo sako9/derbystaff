@@ -14,7 +14,7 @@ angular
       this.send = function (email) {
         var req = user.authorize({
           method: 'POST',
-          url: config.api + '/emails/send',
+          url: config.api + '/emails',
           data: email
         });
         return $http(req);

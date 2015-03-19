@@ -23,8 +23,42 @@ angular
       this.submit = function (application) {
         var req = user.authorize({
           method: 'POST',
-          url: config.api + '/application/submit',
+          url: config.api + '/users/application',
           data: application
+        });
+        return $http(req);
+      };
+
+      /**
+      * Get the logged in user with their application
+      */
+      this.get = function () {
+        var req = user.authorize({
+          method: 'GET',
+          url: config.api + '/users/me/application'
+        });
+        return $http(req);
+      };
+
+      /**
+      * Get a user by ID with their application
+      * @param id The user's id
+      */
+      this.getById = function (id) {
+        var req = user.authorize({
+          method: 'GET',
+          url: config.api + '/users/' + id + '/application'
+        });
+        return $http(req);
+      };
+
+      /**
+      * Get a list of users with their applications
+      */
+      this.list = function () {
+        var req = user.authorize({
+          method: 'GET',
+          url: config.api + '/users/application'
         });
         return $http(req);
       };
@@ -36,101 +70,45 @@ angular
       */
       this.update = function (application) {
         var req = user.authorize({
-          method: 'POST',
-          url: config.api + '/application/update',
+          method: 'PATCH',
+          url: config.api + '/users/me/application',
           data: application
         });
         return $http(req);
       };
 
       /**
-      * Set RSVP status
-      * @param going True if attending, otherwise false
-      * @return An $http promise
+      * Update a user's application by ID
+      * @param id The user's id
+      * @param application An application object
       */
-      this.rsvp = function (going) {
+      this.updateById = function (id, application) {
         var req = user.authorize({
-          method: 'POST',
-          url: config.api + '/application/rsvp',
-          data: {
-            going: going
-          }
+          method: 'PATCH',
+          url: config.api + '/users/' + id + '/application',
+          data: application
         });
         return $http(req);
       };
 
       /**
-      * Get the logged in user's application
-      * @return An $http promise
+      * Delete the logged in user's application
       */
-      this.get = function () {
+      this.delete = function () {
         var req = user.authorize({
-          method: 'GET',
-          url: config.api + '/application'
+          method: 'DELETE',
+          url: config.api + '/users/me/application'
         });
         return $http(req);
       };
 
       /**
-      * Set an application's status (for staff)
-      * @param userId The ID of the user to set the status of
-      * @param status The status to set
-      * @return An $http promise
+      * Delete a user's application by ID
       */
-      this.status = function (userId, status) {
+      this.deleteById = function (id) {
         var req = user.authorize({
-          method: 'POST',
-          url: config.api + '/application/status',
-          data: {
-            userId: userId,
-            status: status
-          }
-        });
-        return $http(req);
-      };
-
-      /**
-      * Softly remove a user's application
-      * @param userId The ID of the user to remove
-      * @return An $http promise
-      */
-      this.remove = function (userId) {
-        var req = user.authorize({
-          method: 'POST',
-          url: config.api + '/application/remove',
-          data: {
-            userId: userId
-          }
-        });
-        return $http(req);
-      };
-
-      /**
-      * Quickly register an attendee (for use at the door)
-      * @param quickApp {name: String, email: String, phone: String}
-      * @return An $http promise
-      */
-      this.quick = function (quickApp) {
-        var req = user.authorize({
-          method: 'POST',
-          url: config.api + '/application/quick',
-          data: quickApp
-        });
-        return $http(req);
-      };
-
-      /**
-      * Update a user's application by user ID
-      * @param userId The user to update
-      * @param data {status: 'approved'|'denied'|'waitlisted'|'pending',
-      *              checked: true|false} (both properties optional)
-      * @return An $http promise
-      */
-      this.updateById = function (userId, data) {
-        var req = user.authorize({
-          method: 'POST',
-          url: config.api + '/application/update/' + userId,
-          data: data
+          method: 'DELETE',
+          url: config.api + '/users/' + id + '/application'
         });
         return $http(req);
       };
