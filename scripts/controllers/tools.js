@@ -18,12 +18,11 @@ angular
     function get() {
       url.list().
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          self.urls = data.urls;
-        }
+        self.urls = data.urls;
       }).
-      error();
+      error(function (data) {
+        self.errors = data.errors || ['An internal error has occurred'];
+      });
     }
     get();
 
@@ -34,14 +33,11 @@ angular
     this.save = function () {
       url.shorten(self.new.full, self.new.short).
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          self.new = {};
-          get();
-        }
+        self.new = {};
+        get();
       }).
-      error(function () {
-        self.errors = ['An internal error occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
@@ -49,13 +45,10 @@ angular
     this.remove = function (u) {
       url.remove(u._id).
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          get();
-        }
+        get();
       }).
-      error(function () {
-        self.errors = ['An internal error occurred'];
+      error(function (data) {
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 

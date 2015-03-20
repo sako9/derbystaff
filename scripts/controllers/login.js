@@ -17,14 +17,13 @@ angular
         password: self.user.password
       }).
       success(function (data) {
-        self.errors = data.errors;
-        if (!data.errors) {
-          user.setMe(data);
-          $location.path('/');
-        }
+        user.setMe(data);
+        $location.path('/');
       }).
-      error(function () {
-        self.errors = ['An internal error has occurred'];
+      error(function (data) {
+        if (data) {
+          self.errors = data.errors || ['An internal error has occurred'];
+        }
       });
     };
 

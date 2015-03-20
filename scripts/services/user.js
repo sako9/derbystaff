@@ -12,7 +12,7 @@ angular
       /**
       * Store the user locally
       * @param me An object representing the logged-in user
-      *           {email: String, password: String, role: String}
+      *           {key: String, token: String, role: String}
       */
       this.setMe = function (me) {
         if (Modernizr.localstorage) {
@@ -24,7 +24,7 @@ angular
 
       /**
       * Retrieve the logged in user from local storage
-      * @return {email: String, password: String, role: String}
+      * @return {key: String, token: String, role: String}
       */
       this.getMe = function () {
         if (Modernizr.localstorage) {
@@ -38,6 +38,11 @@ angular
       * Delete the stored user
       */
       this.removeMe = function () {
+        var req = this.authorize({
+          method: 'DELETE',
+          url: config.api + '/users/token'
+        });
+        $http(req);
         if (Modernizr.localstorage) {
           localStorage.removeItem('me');
         } else {
@@ -52,7 +57,7 @@ angular
       */
       this.authorize = function (req) {
         var me = this.getMe();
-        var encoded = $filter('base64Encode')(me.email + ':' + me.password);
+        var encoded = $filter('base64Encode')(me.key + ':' + me.token);
         var ext = {
           headers: {
             'Authorization': 'Basic ' + encoded
@@ -70,7 +75,7 @@ angular
       this.register = function (user) {
         var req = {
           method: 'POST',
-          url: config.api + '/users/register',
+          url: config.api + '/users',
           data: {
             email: user.email,
             password: user.password
@@ -80,15 +85,20 @@ angular
       };
 
       /**
-      * Activate a user
-      * @param userId The user's ID
+      * Quickly create a new user
+      * @param user {name: String, email: String, phone: String}
       * @return An $http promise
       */
-      this.activate = function (userId) {
-        var req = {
-          method: 'GET',
-          url: config.api + '/users/activate/' + userId
-        };
+      this.quick = function (user) {
+        var req = this.authorize({
+          method: 'POST',
+          url: config.api + '/users/quick',
+          data: {
+            name: user.name,
+            email: user.email,
+            phone: user.phone
+          }
+        });
         return $http(req);
       };
 
@@ -100,7 +110,7 @@ angular
       this.login = function (user) {
         var req = {
           method: 'POST',
-          url: config.api + '/users/login',
+          url: config.api + '/users/token',
           data: {
             email: user.email,
             password: user.password
@@ -122,37 +132,44 @@ angular
       };
 
       /**
-      * Set a user's role
-      * @param userId A user's ID
-      * @param role 'attendee'|'staff'|'admin'
-      * @return An $http promise
+      * Get a user by ID
+      * @param id The user's id
       */
-      this.role = function (userId, role) {
+      this.get = function (id) {
         var req = this.authorize({
-          method: 'POST',
-          url: config.api + '/users/role/' + userId,
-          data: {
-            role: role
-          }
+          method: 'GET',
+          url: config.api + '/users/' + id
         });
         return $http(req);
       };
 
       /**
-      * Unsubscribe from mailing list
-      * @param userId The ID of the user to unsubscribe
-      * @return An $http promise
+      * Update the logged in user
+      * @param user {email: String, password: String}
       */
-      this.unsubscribe = function (userId) {
+      this.update = function (user) {
         var req = this.authorize({
-          method: 'POST',
-          url: config.api + '/users/unsubscribe',
-          data: {
-            userId: userId
-          }
+          method: 'PATCH',
+          url: config.api + '/users',
+          data: user
         });
         return $http(req);
       };
+
+      /**
+      * Partially update a user
+      * @param id The user's id
+      * @param update The object to use for updating
+      */
+      this.updateById = function (id, update) {
+        var req = this.authorize({
+          method: 'PATCH',
+          url: config.api + '/users/' + id,
+          data: update
+        });
+        return $http(req);
+      };
+
 
       /**
       * Completely delete a user
@@ -161,11 +178,8 @@ angular
       */
       this.delete = function (userId) {
         var req = this.authorize({
-          method: 'POST',
-          url: config.api + '/users/delete',
-          data: {
-            userId: userId
-          }
+          method: 'DELETE',
+          url: config.api + '/users/' + userId
         });
         return $http(req);
       };

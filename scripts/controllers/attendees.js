@@ -15,54 +15,49 @@ angular
 
     self.users = [];
     self.current = [];
-    self.applied = [];
     self.updatable = [];
 
     // Get all users
-    userModel.list().
+    applicationModel.list().
     success(function (data) {
-      self.errors = data.errors;
-      if (!self.errors) {
-        self.users = data.users;
-        readable();
-        self.updatable = self.current = self.users;
+      self.users = data.users;
+      readable();
+      self.updatable = self.current = self.users;
 
-        self.applied = self.users.filter(function (user) {
-          return user.application.submitted;
-        });
+      self.applied = self.users.filter(function (user) {
+        return user.application;
+      });
 
-        self.going = self.users.filter(function (user) {
-          return user.application.going == 'Yes';
-        });
+      self.going = self.users.filter(function (user) {
+        return user.application && user.application.going;;
+      });
 
-        self.approved = self.users.filter(function (user) {
-          return user.application.status == 'approved';
-        });
+      self.approved = self.users.filter(function (user) {
+        return user.application && user.application.status == 'approved';
+      });
 
-        self.waitlisted = self.users.filter(function (user) {
-          return user.application.status == 'waitlisted';
-        });
+      self.waitlisted = self.users.filter(function (user) {
+        return user.application && user.application.status == 'waitlisted';
+      });
 
-        self.pending = self.users.filter(function (user) {
-          return user.application.status == 'pending';
-        });
+      self.pending = self.users.filter(function (user) {
+        return user.application && user.application.status == 'pending';
+      });
 
-        self.denied = self.users.filter(function (user) {
-          return user.application.status == 'denied';
-        });
+      self.denied = self.users.filter(function (user) {
+        return user.application && user.application.status == 'denied';
+      });
 
-        self.travel = self.users.filter(function (user) {
-          return user.application.travel == 'Yes';
-        });
+      self.travel = self.users.filter(function (user) {
+        return user.application && user.application.travel == 'Yes';
+      });
 
-        self.checked = self.users.filter(function (user) {
-          return user.application.checked == 'Yes';
-        });
-
-      }
+      self.checked = self.users.filter(function (user) {
+        return user.application && user.application.checked == 'Yes';
+      });
     }).
-    error(function () {
-      self.errors = ['An internal error occurred'];
+    error(function (data) {
+      self.errors = data.errors || ['An internal error has occurred'];
     });
 
     // Display all users
@@ -108,7 +103,7 @@ angular
     // Display only checked in users
     self.showChecked = function () {
       self.current = self.checked;
-    };
+    }
 
     // Expand a user
     self.toggle = function (user) {
@@ -136,11 +131,10 @@ angular
         status: user.application.status
       }).
       success(function (data) {
-        self.errors = data.errors;
         user.editingStatus = false;
       }).
       error(function (data) {
-        self.errors = ['An internal error occurred'];
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
@@ -163,11 +157,10 @@ angular
         checked: checked
       }).
       success(function (data) {
-        self.errors = data.errors;
         user.editingChecked = false;
       }).
       error(function (data) {
-        self.errors = ['An internal error occurred'];
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
@@ -185,13 +178,12 @@ angular
 
     // Save the role of a user
     self.saveRole = function (user) {
-      userModel.role(user._id, user.role).
+      userModel.updateById(user._id, {role: user.role}).
       success(function (data) {
-        self.errors = data.errors;
         user.editingRole = false;
       }).
       error(function (data) {
-        self.errors = ['An internal error occurred'];
+        self.errors = data.errors || ['An internal error occurred'];
       });
     };
 
@@ -206,7 +198,7 @@ angular
     function readable() {
       for (var i = 0; i < self.users.length; i++) {
         var user = self.users[i];
-        if (user.application.submitted) {
+        if (user.application) {
           switch (user.application.shirt) {
             case 'S':
               user.application.shirt = 'Small';
@@ -223,6 +215,7 @@ angular
           }
           if (!user.application.gender) user.application.gender = '-';
           user.application.first = (user.application.first ? 'Yes' : 'No');
+          console.log(user.application.dietary);
           if (user.application.dietary.length) {
             var diet = user.application.dietary[0];
             for (var j = 1; j < user.application.dietary.length; j++) {
@@ -237,12 +230,11 @@ angular
           if (user.application.going === undefined) {
             user.application.going = 'None';
           } else if (user.application.going === false) {
-            user.applicaiton.going = 'Not Going';
+            user.application.going = 'Not Going';
           } else {
             user.application.going = 'Going';
           }
         }
       };
-    }
-
+    };
   }]);
