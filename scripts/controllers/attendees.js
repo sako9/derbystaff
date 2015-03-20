@@ -56,7 +56,7 @@ angular
         return user.application && user.application.checked == 'Yes';
       });
     }).
-    error(function (data) {
+      error(function (data) {
       self.errors = data.errors || ['An internal error has occurred'];
     });
 
@@ -215,7 +215,6 @@ angular
           }
           if (!user.application.gender) user.application.gender = '-';
           user.application.first = (user.application.first ? 'Yes' : 'No');
-          console.log(user.application.dietary);
           if (user.application.dietary.length) {
             var diet = user.application.dietary[0];
             for (var j = 1; j < user.application.dietary.length; j++) {
