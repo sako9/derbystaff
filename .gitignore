@@ -10,3 +10,4 @@ node_modules
 build/Release
 .grunt
 config.js
+.DS_Store
