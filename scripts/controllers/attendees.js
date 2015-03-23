@@ -3,7 +3,7 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/attendees', {
       templateUrl: '/views/attendees.html',
-      controller: 'StaffAttendeesCtrl'
+      controller: 'StaffAttendeesCtrl as att'
     });
   }])
   .controller('StaffAttendeesCtrl', ['User', 'Application', function (User, Application) {
@@ -11,69 +11,113 @@ angular
     var self = this;
     var applicationModel = new Application();
     var userModel = new User();
+    var socket = userModel.socket();
     self.user = userModel.getMe();
 
     // All users
     self.users = [];
     // Currently displayed users
     self.current = [];
-    // Users to modify
-    self.updatable = [];
+
+    // The method name of the current filter on the users
+    // This is used to re-run any filters when the user-list updates
+    // It can also be used to see what the current list of users is
+    self.currentFilter = 'all';
 
     // Get all users
     applicationModel.list().
     success(function (data) {
       self.users = data.users;
       readable();
-      self.updatable = self.current = self.users;
+      self.current = self.users;
       filterUsers();
     }).
     error(function (data) {
       self.errors = data.errors || ['An internal error has occurred'];
     });
 
+    // Listen for new users
+    socket.on('create', function (user) {
+      self.users.push(user);
+      readable();
+      filterUsers();
+      self[self.currentFilter]();
+    });
+
+    // Listen for updated users
+    socket.on('update', function (user) {
+      self.users = self.users.map(function (u) {
+        if (u._id == user._id) {
+          u.email = user.email;
+        }
+        return u;
+      });
+      readable();
+      filterUsers();
+      self[self.currentFilter]();
+    });
+
+    // Listen for deleted users
+    socket.on('delete', function (user) {
+      self.users = self.users.filter(function (u) {
+        return u._id != user._id;
+      });
+      readable();
+      filterUsers();
+      self[self.currentFilter]();
+    });
+
     // Display all users
     self.all = function () {
+      self.currentFilter = 'all';
       self.current = self.users;
     };
 
     // Display users with submitted applications
     self.showApplied = function () {
+      self.currentFilter = 'showApplied';
       self.current = self.applied;
     };
 
     // Display users that have RSVPd yes
     self.showGoing = function () {
+      self.currentFilter = 'showGoing';
       self.current = self.going;
     };
 
     // Display approved users
     self.showApproved = function () {
+      self.currentFilter = 'showApproved';
       self.current = self.approved;
     };
 
     // Display waitlisted users
     self.showWaitlisted = function () {
+      self.currentFilter = 'showWaitlisted';
       self.current = self.waitlisted;
     };
 
     // Display pending users
     self.showPending = function () {
+      self.currentFilter = 'showPending';
       self.current = self.pending;
     };
 
     // Display denied users
     self.showDenied = function () {
+      self.currentFilter = 'showDenied';
       self.current = self.denied;
     };
 
     // Display users that have requested travel
     self.showTravel = function () {
+      self.currentFilter = 'showDenied';
       self.current = self.travel;
     };
 
     // Display only checked in users
     self.showChecked = function () {
+      self.currentFilter = 'showChecked';
       self.current = self.checked;
     }
 
@@ -166,6 +210,7 @@ angular
     };
 
     // Create arrays of users that fit into each category
+    // This way, changing filters is a matter of assigning variables
     function filterUsers() {
       self.applied = self.users.filter(function (user) {
         return user.application;
