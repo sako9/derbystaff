@@ -4,7 +4,7 @@
 */
 angular
   .module('khe')
-  .factory('Application', ['$http', 'User', function ($http, User) {
+  .factory('Application', ['$http', '$filter', 'socketFactory', 'User', function ($http, $filter, socket, User) {
 
     var Application = function () {
 
@@ -14,6 +14,22 @@ angular
       this.DENIED = 'denied';
       this.WAITLISTED = 'waitlisted';
       this.PENDING = 'pending';
+
+      /**
+      * A socket connected to /users
+      */
+      var connection;
+      this.socket = function () {
+        if (!connection) {
+          var me = user.getMe();
+          var encoded = $filter('base64Encode')(me.key + ':' + me.token);
+          var s = io.connect(config.api + '/users/application', {
+            query: 'authorization=' + encoded
+          });
+          connection = socket({ioSocket: s});
+        }
+        return connection;
+      };
 
       /**
       * Submit an application

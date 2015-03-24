@@ -65,14 +65,14 @@ angular
     * Set up socket listeners
     */
     var listen = function () {
-      var socket = Models.user.socket();
-
-      socket.on('create', function (user) {
+      // User created
+      Models.user.socket().on('create', function (user) {
         view.all.push(user);
         reload();
       });
 
-      socket.on('update', function (user) {
+      // User updated
+      Models.user.socket().on('update', function (user) {
         view.all = view.all.map(function (u) {
           if (u._id == user._id) {
             u.email = user.email;
@@ -82,9 +82,43 @@ angular
         reload();
       });
 
-      socket.on('delete', function (user) {
+      // User deleted
+      Models.user.socket().on('delete', function (user) {
         view.all = view.all.filter(function (u) {
           return u._id != user._id;
+        });
+        reload();
+      });
+
+      // Application created
+      Models.application.socket().on('create', function (user) {
+        view.all = view.all.map(function (u) {
+          if (u._id == user._id) {
+            u = user;
+          }
+          return u;
+        });
+        reload();
+      });
+
+      // Application updated
+      Models.application.socket().on('update', function (user) {
+        view.all = view.all.map(function (u) {
+          if (u._id == user._id) {
+            u = user;
+          }
+          return u;
+        });
+        reload();
+      });
+
+      // Application deleted
+      Models.application.socket().on('delete', function (user) {
+        view.all = view.all.map(function (u) {
+          if (u._id == user._id) {
+            u.application = null;
+          }
+          return u;
         });
         reload();
       });

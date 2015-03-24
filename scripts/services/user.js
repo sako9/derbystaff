@@ -12,13 +12,17 @@ angular
       /**
       * A socket connected to /users
       */
+      var connection;
       this.socket = function () {
-        var me = this.getMe();
-        var encoded = $filter('base64Encode')(me.key + ':' + me.token);
-        var s = io.connect(config.api + '/users', {
-          query: 'authorization=' + encoded
-        });
-        return socket({ioSocket: s});
+        if (!connection) {
+          var me = this.getMe();
+          var encoded = $filter('base64Encode')(me.key + ':' + me.token);
+          var s = io.connect(config.api + '/users', {
+            query: 'authorization=' + encoded
+          });
+          connection = socket({ioSocket: s});
+        }
+        return connection;
       };
 
       /**
