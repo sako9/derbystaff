@@ -1,16 +1,16 @@
 <div>
-  <requirestaff user="att.user" error="true">
+  <requirestaff user="att.me" error="true">
     <staffheader></staffheader>
     <staffsidebar>
-      <li><a ng-click="att.all()">All ({{att.users.length}})</a></li>
-      <li><a ng-click="att.showApplied()">Applied ({{att.applied.length}})</a></li>
-      <li><a ng-click="att.showGoing()">Going ({{att.going.length}})</a></li>
-      <li><a ng-click="att.showApproved()">Approved ({{att.approved.length}})</a></li>
-      <li><a ng-click="att.showWaitlisted()">Waitlisted ({{att.waitlisted.length}})</a></li>
-      <li><a ng-click="att.showPending()">Pending ({{att.pending.length}})</a></li>
-      <li><a ng-click="att.showDenied()">Denied ({{att.denied.length}})</a></li>
-      <li><a ng-click="att.showTravel()">Travel Requests ({{att.travel.length}})</a></li>
-      <li><a ng-click="att.showChecked()">Checked In ({{att.checked.length}})</a></li>
+      <li><a ng-click="att.filter.apply('all')">All ({{att.all.length}})</a></li>
+      <li><a ng-click="att.filter.apply('applied')">Applied ({{att.applied.length}})</a></li>
+      <li><a ng-click="att.filter.apply('going')">Going ({{att.going.length}})</a></li>
+      <li><a ng-click="att.filter.apply('approved')">Approved ({{att.approved.length}})</a></li>
+      <li><a ng-click="att.filter.apply('waitlisted')">Waitlisted ({{att.waitlisted.length}})</a></li>
+      <li><a ng-click="att.filter.apply('pending')">Pending ({{att.pending.length}})</a></li>
+      <li><a ng-click="att.filter.apply('denied')">Denied ({{att.denied.length}})</a></li>
+      <li><a ng-click="att.filter.apply('travel')">Travel Requests ({{att.travel.length}})</a></li>
+      <li><a ng-click="att.filter.apply('checked')">Checked In ({{att.checked.length}})</a></li>
       <li class="divider"></li>
       <li><a href="/attendees/checkin">Check In</a></li>
     </staffsidebar>
@@ -19,7 +19,7 @@
     <div class="small-12 large-9 columns">
 
       <!-- Errors, if there are any -->
-      <div ng-if="att.errors">
+      <div ng-if="att.errors.length">
         <div data-alert class="alert-box alert">
           <span ng-repeat="error in att.errors">{{error}}<br></span>
           <a href="#" class="close">&times;</a>
@@ -40,9 +40,9 @@
       </div>
 
       <!-- Each user with submitted application -->
-      <div class="row expandable-list-item" ng-repeat="user in att.current | filter:query | orderBy:'application.time':true" ng-if="user.application">
+      <div class="row expandable-list-item" ng-repeat="user in att.users | filter:query | orderBy:'application.time':true" ng-if="user.application">
         <!-- Content always shown -->
-        <div class="row header cursor-pointer" ng-click="att.toggle(user)">
+        <div class="row header cursor-pointer" ng-click="att.visibility.toggle(user)">
           <div class="small-9 columns">
             <strong>{{user.application.name}}</strong>
           </div>
@@ -51,7 +51,7 @@
           </div>
         </div>
         <!-- Content shown on expansion -->
-        <div class="row content" ng-if="att.expanded(user)">
+        <div class="row content" ng-if="att.visibility.check(user)">
           <div class="small-12 columns">
             <hr>
             <!-- Static information (the user's application) -->
@@ -72,25 +72,25 @@
                 <strong>Age:</strong> {{user.application.age}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Travel Required:</strong> {{user.application.travel}}
+                <strong>Travel Required:</strong> {{user.application.travel|application:'travel'}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>First Hackathon:</strong> {{user.application.first}}
+                <strong>First Hackathon:</strong> {{user.application.first|application:'first'}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Dietary Restrictions:</strong> {{user.application.dietary}}
+                <strong>Dietary Restrictions:</strong> {{user.application.dietary|application:'dietary'}}
               </div>
               <div class="small-12 large-6 columns">
                 <strong>Major:</strong> {{user.application.major}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Shirt:</strong> {{user.application.shirt}}
+                <strong>Shirt Size:</strong> {{user.application.shirt|application:'shirt'}}
               </div>
               <div class="small-12 large-6 columns">
                 <strong>Gender:</strong> {{user.application.gender|capitalizeFirstLetter}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>RSVP:</strong> {{user.application.going}}
+                <strong>RSVP:</strong> {{user.application.going|application:'going'}}
               </div>
             </div>
             <hr>
@@ -98,7 +98,7 @@
             <div class="row">
               <div class="small-12 large-6 columns">
                 <strong>Status:</strong>
-                <a ng-if="!user.editingStatus" class="black cursor-pointer" ng-click="att.editStatus(user)">
+                <a ng-if="!user.editingStatus" class="black cursor-pointer" ng-click="att.status.edit(user)">
                   {{user.application.status|capitalizeFirstLetter}}
                 </a>
                 <span ng-if="user.editingStatus">
@@ -112,32 +112,31 @@
                       </select>
                     </div>
                     <div class="small-2 columns">
-                      <a class="button postfix" ng-click="att.saveStatus(user)">Save</a>
+                      <a class="button postfix" ng-click="att.status.save(user)">Save</a>
                     </div>
                     <div class="small-2 columns">
-                      <a class="button alert postfix" ng-click="att.cancelEditStatus(user)">Cancel</a>
+                      <a class="button alert postfix" ng-click="att.status.cancel(user)">Cancel</a>
                     </div>
                   </div>
                 </span>
               </div>
               <div class="small-12 large-6 columns">
                 <strong>Checked In:</strong>
-                <a ng-if="!user.editingChecked" class="black cursor-pointer" ng-click="att.editChecked(user)">
-                  {{user.application.checked}}
+                <a ng-if="!user.editingChecked" class="black cursor-pointer" ng-click="att.checkedIn.edit(user)">
+                  {{user.application.checked|application:'checked'}}
                 </a>
                 <span ng-if="user.editingChecked">
                   <div class="row collapse">
                     <div class="small-8 columns">
-                      <select ng-model="user.application.checked">
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                      <select ng-model="user.application.checked"
+                              ng-options="o.v as o.n for o in [{ n: 'Yes', v: true }, { n: 'No', v: false }]">
                       </select>
                     </div>
                     <div class="small-2 columns">
-                      <a class="button postfix" ng-click="att.saveChecked(user)">Save</a>
+                      <a class="button postfix" ng-click="att.checkedIn.save(user)">Save</a>
                     </div>
                     <div class="small-2 columns">
-                      <a class="button alert postfix" ng-click="att.cancelEditChecked(user)">Cancel</a>
+                      <a class="button alert postfix" ng-click="att.checkedIn.cancel(user)">Cancel</a>
                     </div>
                   </div>
                 </span>
@@ -147,8 +146,8 @@
                 <span ng-if="att.user.role == 'staff'">
                   {{user.role|capitalizeFirstLetter}}
                 </span>
-                <requireadmin user="att.user">
-                  <a ng-if="!user.editingRole" class="black cursor-pointer" ng-click="att.editRole(user)">
+                <requireadmin user="att.me">
+                  <a ng-if="!user.editingRole" class="black cursor-pointer" ng-click="att.role.edit(user)">
                     {{user.role|capitalizeFirstLetter}}
                   </a>
                   <span ng-if="user.editingRole">
@@ -161,10 +160,10 @@
                         </select>
                       </div>
                       <div class="small-2 columns">
-                        <a class="button postfix" ng-click="att.saveRole(user)">Save</a>
+                        <a class="button postfix" ng-click="att.role.save(user)">Save</a>
                       </div>
                       <div class="small-2 columns">
-                        <a class="button alert postfix" ng-click="att.cancelEditRole(user)">Cancel</a>
+                        <a class="button alert postfix" ng-click="att.role.cancel(user)">Cancel</a>
                       </div>
                     </div>
                   </span>
@@ -179,7 +178,7 @@
       </div>
 
       <!-- Each user that doesn't have a submitted application -->
-      <div class="row expandable-list-item" ng-repeat="user in att.current | filter:query | orderBy:'time':true" ng-if="!user.application">
+      <div class="row expandable-list-item" ng-repeat="user in att.users | filter:query | orderBy:'time':true" ng-if="!user.application">
         <div class="row header">
           <div class="small-9 columns">
             {{user.email}}
