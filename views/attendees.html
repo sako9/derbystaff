@@ -90,7 +90,7 @@
                 <strong>Shirt Size:</strong> {{user.application.shirt|application:'shirt'}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Gender:</strong> {{user.application.gender|capitalizeFirstLetter}}
+                <strong>Gender:</strong> {{user.application.gender|application:'gender'|capitalizeFirstLetter}}
               </div>
               <div class="small-12 large-6 columns">
                 <strong>RSVP:</strong> {{user.application.going|application:'going'}}

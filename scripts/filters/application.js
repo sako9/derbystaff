@@ -54,6 +54,13 @@ angular
       }
     };
 
+    self.gender = function (gender) {
+      if (!gender) {
+        return '-';
+      }
+      return gender;
+    };
+
     return function (input, fn) {
       return self[fn](input);
     };
