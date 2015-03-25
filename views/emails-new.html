@@ -1,62 +1,58 @@
-<div ng-controller="StaffEmailCtrl as ctrl">
+<requireadmin user="ctrl.me" error="true">
 
-  <requireadmin user="ctrl.me" error="true">
+  <staffheader></staffheader>
 
-    <staffheader></staffheader>
+  <staffsidebar>
+    <li><a href="/emails/new">New</a></li>
+    <li><a href="/emails">Sent</a></li>
+  </staffsidebar>
 
-    <staffsidebar>
-      <li><a href="/emails/new">New</a></li>
-      <li><a href="/emails">Sent</a></li>
-    </staffsidebar>
+  <br>
+  <div class="small-9 columns">
 
-    <br>
-    <div class="small-9 columns">
-
-      <!-- Success messages, if there are any -->
-      <div ng-if="ctrl.successes">
-        <div data-alert class="alert-box success">
-          <span ng-repeat="success in ctrl.successes">{{success}}<br></span>
-          <a href="#" class="close">&times;</a>
-        </div>
+    <!-- Success messages, if there are any -->
+    <div ng-if="ctrl.successes">
+      <div data-alert class="alert-box success">
+        <span ng-repeat="success in ctrl.successes">{{success}}<br></span>
+        <a href="#" class="close">&times;</a>
       </div>
-
-      <!-- Errors, if there are any -->
-      <div ng-if="ctrl.errors">
-        <div data-alert class="alert-box alert">
-          <span ng-repeat="error in ctrl.errors">{{error}}<br></span>
-          <a href="#" class="close">&times;</a>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="small-12 columns">
-          <!-- Compose email form -->
-          <h2>Compose</h2>
-          <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Need help? Click here for a Markdown Cheat Sheet.</a>
-          <form ng-submit="ctrl.send()">
-            <select ng-model="ctrl.new.group">
-              <option value="all">All</option>
-              <option value="staff">Staff</option>
-              <option value="applied">Applied</option>
-              <option value="going">Going</option>
-              <option value="approved">Approved</option>
-              <option value="waitlisted">Waitlisted</option>
-              <option value="pending">Pending</option>
-              <option value="denied">Denied</option>
-              <option value="travel">Travel</option>
-              <option value="checked">Checked In</option>
-              <option value="custom">Custom</option>
-            </select>
-            <input ng-if="ctrl.new.group == 'custom'" type="text" ng-model="ctrl.new.emails" placeholder="a@example.com, b@example.com">
-            <input type="text" ng-model="ctrl.new.subject" placeholder="Subject">
-            <textarea ng-model="ctrl.new.body" placeholder="Body (Markdown formatting)" rows="10"></textarea>
-            <button>Send</button>
-          </form>
-        </div>
-      </div>
-
     </div>
 
-  </requireadmin>
+    <!-- Errors, if there are any -->
+    <div ng-if="ctrl.errors">
+      <div data-alert class="alert-box alert">
+        <span ng-repeat="error in ctrl.errors">{{error}}<br></span>
+        <a href="#" class="close">&times;</a>
+      </div>
+    </div>
 
-</div>
+    <div class="row">
+      <div class="small-12 columns">
+        <!-- Compose email form -->
+        <h2>Compose</h2>
+        <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Need help? Click here for a Markdown Cheat Sheet.</a>
+        <form ng-submit="ctrl.compose.send()">
+          <select ng-model="ctrl.compose.group">
+            <option value="all">All</option>
+            <option value="staff">Staff</option>
+            <option value="applied">Applied</option>
+            <option value="going">Going</option>
+            <option value="approved">Approved</option>
+            <option value="waitlisted">Waitlisted</option>
+            <option value="pending">Pending</option>
+            <option value="denied">Denied</option>
+            <option value="travel">Travel</option>
+            <option value="checked">Checked In</option>
+            <option value="custom">Custom</option>
+          </select>
+          <input ng-if="ctrl.compose.group == 'custom'" type="text" ng-model="ctrl.compose.email.emails" placeholder="a@example.com, b@example.com">
+          <input type="text" ng-model="ctrl.compose.email.subject" placeholder="Subject">
+          <textarea ng-model="ctrl.compose.email.body" placeholder="Body (Markdown formatting)" rows="10"></textarea>
+          <button>Send</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</requireadmin>

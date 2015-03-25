@@ -1,10 +1,26 @@
 angular
   .module('khe')
-  .factory('Email', ['$http', 'User', function ($http, User) {
+  .factory('Email', ['$http', '$filter', 'User', 'socketFactory', function ($http, $filter, User, socket) {
 
     var Email = function () {
 
       var user = new User();
+
+      /**
+      * A socket connected to /emails
+      */
+      var connection;
+      this.socket = function () {
+        if (!connection) {
+          var me = user.getMe();
+          var encoded = $filter('base64Encode')(me.key + ':' + me.token);
+          var s = io.connect(config.api + '/emails', {
+            query: 'authorization=' + encoded
+          });
+          connection = socket({ioSocket: s});
+        }
+        return connection;
+      };
 
       /**
       * Send an email
