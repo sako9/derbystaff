@@ -3,118 +3,230 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/attendees/checkin', {
       templateUrl: '/views/checkin.html',
-      controller: 'StaffCheckInCtrl'
+      controller: 'StaffCheckInCtrl as checkin'
     });
   }])
-  .controller('StaffCheckInCtrl', ['User', 'Application', 'Socket', '$scope', function (User, Application, Socket, $scope) {
+  .controller('StaffCheckInCtrl', ['User', 'Application', '$scope', function (User, Application, $scope) {
 
-    var self = this;
-    var user = new User();
-    var application = new Application();
+    /**
+    * The view object is the interface for any template using this controller.
+    * To see the interface, just console.log(view) at the bottom of this file
+    */
+    var view = this;
 
-    self.me = user.getMe();
+    var Models = {
+      user: new User(),
+      application: new Application()
+    };
 
-    self.users = [];
-    self.count = 0;
+    /**
+    * The logged in user
+    */
+    view.me = Models.user.getMe();
 
+    /**
+    * An array of all users
+    */
+    view.users = [];
+
+    /**
+    * A count of checked in users
+    */
+    view.count = 0;
+
+    /**
+    * Update the count of checked in users
+    */
     function updateCount() {
-      self.count = self.users.filter(function (user) {
+      view.count = view.users.filter(function (user) {
         return user.application && user.application.checked;
       }).length;
     }
 
-    // Populate our user list
+    /**
+    * Retrieve a list of users
+    */
     function get() {
-      application.list().
+      Models.application.list().
       success(function (data) {
-        self.users = data.users;
+        view.users = data.users;
         updateCount();
       }).
       error(function (data) {
-        self.errors = data.errors || ['An internal error occurred'];
+        view.errors = data.errors || ['An internal error occurred'];
       });
     }
-    get();
 
-    // Keep an update list of users
-    Socket.on('/application/quick', function (user) {
-      self.users.push(user);
-      updateCount();
-    });
-
-    // Keep track of changes to individual users
-    Socket.on('/application/update', function (user) {
-      for (var i = 0; i < self.users.length; i++) {
-        if (self.users[i]._id == user._id) {
-          self.users[i] = user;
-          updateCount();
-          break;
+    /**
+    * Set up socket listeners
+    */
+    function listen() {
+      // Application created
+      Models.application.socket().on('create', function (user) {
+        var i = view.users.length;
+        while(i--) {
+          if (view.users[i]._id == user._id) {
+            view.users[i] = user;
+            break;
+          }
         }
-      }
-    });
-
-    // Hold the quick application object
-    // (name, email, phone)
-    self.quickApp = {};
-
-    // Submit the quick registration form
-    self.register = function () {
-      self.quickApp.phone = self.quickApp.phone.replace(/\D/g,'');
-      user.quick(self.quickApp).
-      success(function (data) {
-        self.quickApp = {};
-      }).
-      error(function (data) {
-        self.errors = data.errors || ['An internal error occurred'];
+        updateCount();
       });
+
+      // Application updated
+      Models.application.socket().on('update', function (user) {
+        var i = view.users.length;
+        while(i--) {
+          if (view.users[i]._id == user._id) {
+            view.users[i] = user;
+            break;
+          }
+        }
+        updateCount();
+      });
+
+      // Application deleted
+      Models.application.socket().on('delete', function (user) {
+        var i = view.users.length;
+        while(i--) {
+          if (view.users[i]._id == user._id) {
+            view.users[i].application = null;
+            break;
+          }
+        }
+        updateCount();
+      });
+
+      // User created
+      Models.user.socket().on('create', function (user) {
+        view.users.push(user);
+        updateCount();
+      });
+
+      // User updated
+      Models.user.socket().on('update', function (user) {
+        var i = view.users.length;
+        while(i--) {
+          if (view.users[i]._id == user._id) {
+            view.users[i].email = user.email;
+            break;
+          }
+        }
+        updateCount();
+      });
+
+      // User deleted
+      Models.user.socket().on('delete', function (user) {
+        var i = view.users.length;
+        while(i--) {
+          if (view.users[i]._id == user._id) {
+            view.users.splice(i, 1);
+            break;
+          }
+        }
+        updateCount();
+      });
+    }
+
+    /**
+    * Manage the quick application form
+    */
+    view.quick = {
+
+      /**
+      * Hold the application object
+      */
+      application: {},
+
+      /**
+      * Submit the quick application form
+      */
+      register: function () {
+        var self = this;
+        self.application.phone = self.application.phone.replace(/\D/g,'');
+        Models.user.quick(self.application).
+        success(function (data) {
+          self.application = {};
+        }).
+        error(function (data) {
+          view.errors = data.errors || ['An internal error occurred'];
+        });
+      },
+
+      /**
+      * Save a user that is halfway registered (this is for someone that
+      * has an email and password, but did not submit an application)
+      */
+      edit: function (user) {
+        Models.application.updateById(user._id, {
+          name: user.app.name,
+          phone: user.app.phone,
+          submitted: true,
+          status: 'approved',
+          going: true,
+          checked: true,
+          time: Date.now(),
+          demographic: true,
+          conduct: true,
+          travel: false,
+          waiver: true,
+          door: true
+        }).
+        success(function (data) {
+          view.errors = null;
+          console.log(data);
+        }).
+        error(function (data) {
+          console.log(data);
+          view.errors = data.errors || ['An internal error has occurred'];
+        });
+      }
+
     };
 
-    // Toggle the checked in status of the user
-    self.toggleChecked = function (user) {
-      application.updateById(user._id, {
+    /**
+    * Toggle the checked in status of the user
+    */
+    view.toggleChecked = function (user) {
+      Models.application.updateById(user._id, {
         checked: user.application.checked
       }).
-      error(function (data) {
-        self.errors = data.errors || ['An internal error occurred'];
-      });
-    };
-
-    // Save the currently edited user
-    self.saveQuickEdit = function (user) {
-      application.updateById(user._id, {
-        name: user.app.name,
-        phone: user.app.phone,
-        submitted: true,
-        status: 'approved',
-        going: true,
-        checked: true,
-        time: Date.now(),
-        demographic: true,
-        conduct: true,
-        travel: false,
-        waiver: true,
-        door: true
-      }).
       success(function (data) {
-        console.log(data);
       }).
       error(function (data) {
-        self.errors = data.errors || ['An internal error has occurred'];
+        view.errors = data.errors || ['An internal error occurred'];
       });
     };
 
-    // Expand a user
-    self.toggle = function (user) {
-      if (self.expandedId == user._id) {
-        self.expandedId = '';
-      } else {
-        self.expandedId = user._id;
+    /**
+    * Expand/contract list view items
+    */
+    view.visibility = {
+
+      /**
+      * Expand a user
+      */
+      toggle: function (user) {
+        if (this.expandedId == user._id) {
+          this.expandedId = '';
+        } else {
+          this.expandedId = user._id;
+        }
+      },
+
+      /**
+      * Check to see if a user is expanded
+      */
+      check: function (user) {
+        return this.expandedId == user._id;
       }
+
     };
 
-    // Check if a user is expanded
-    self.expanded = function (user) {
-      return self.expandedId == user._id;
-    };
+    /**
+    * Initialize controller
+    */
+    get();
+    listen();
 
   }]);

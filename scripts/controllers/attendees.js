@@ -50,7 +50,7 @@ angular
     /**
     * Get a list of all users with applications
     */
-    var get = function () {
+    function get() {
       Models.application.list().
       success(function (data) {
         view.all = data.users;
@@ -59,12 +59,12 @@ angular
       error(function (data) {
         view.errors = data.errors || ['An internal error has occurred'];
       });
-    };
+    }
 
     /**
     * Set up socket listeners
     */
-    var listen = function () {
+    function listen() {
       // User created
       Models.user.socket().on('create', function (user) {
         view.all.push(user);
@@ -122,16 +122,16 @@ angular
         });
         reload();
       });
-    };
+    }
 
     /**
     * Trigger reload of the user list
     * Call this function each time the list of users changes somehow
     */
-    var reload = function () {
+    function reload() {
       view.filter.init();
       view.filter.apply(view.filter.current);
-    };
+    }
 
     /**
     * Structure to filter users
@@ -260,7 +260,6 @@ angular
         }).
         success(function (data) {
           user.editingStatus = false;
-          reload();
         }).
         error(function (data) {
           errors = data.errors || ['An internal error occurred'];
@@ -296,7 +295,6 @@ angular
         }).
         success(function (data) {
           user.editingChecked = false;
-          reload();
         }).
         error(function (data) {
           errors = data.errors || ['An internal error occurred'];
@@ -332,7 +330,6 @@ angular
         }).
         success(function (data) {
           user.editingRole = false;
-          reload();
         }).
         error(function (data) {
           errors = data.errors || ['An internal error occurred'];
