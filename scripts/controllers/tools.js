@@ -3,53 +3,101 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/tools', {
       templateUrl: '/views/tools.html',
-      controller: 'StaffToolsCtrl'
+      controller: 'StaffToolsCtrl as tools'
     });
   }])
   .controller('StaffToolsCtrl', ['User', 'Url', function (User, Url) {
 
-    var self = this;
-    self.user = new User().getMe();
-    var url = new Url();
+    /**
+    * Template interface
+    */
+    var view = this;
 
-    self.urls = [];
+    var Models = {
+      user: new User(),
+      url: new Url()
+    };
 
-    // Get a list of the current URLs
+    /**
+    * Logged in user
+    */
+    view.me = Models.user.getMe();
+
+    /**
+    * Array of existing urls
+    */
+    view.urls = [];
+
+    /**
+    * Get an initial list of existing urls
+    */
     function get() {
-      url.list().
+      Models.url.list().
       success(function (data) {
-        self.urls = data.urls;
+        view.urls = data.urls;
       }).
       error(function (data) {
-        self.errors = data.errors || ['An internal error has occurred'];
+        view.errors = data.errors || ['An internal error has occurred'];
       });
     }
+
+    /**
+    * Set up socket connections
+    */
+    function listen() {
+      // Url created
+      Models.url.socket().on('create', function (url) {
+        view.urls.push(url);
+      });
+
+      // Url deleted
+      Models.url.socket().on('delete', function (url) {
+        view.urls = view.urls.filter(function (u) {
+          return u._id != url._id;
+        });
+      });
+    }
+
+    view.url = {
+
+      /**
+      * The model for a new URL
+      */
+      new: {},
+
+      /**
+      * Save the new url
+      */
+      save: function () {
+        var self = this;
+        Models.url.shorten(self.new.full, self.new.short).
+        success(function (data) {
+          self.new = {};
+        }).
+        error(function (data) {
+          view.errors = data.errors || ['An internal error occurred'];
+        });
+      },
+
+      /**
+      * Delete a given URL
+      */
+      remove: function (url) {
+        Models.url.remove(url._id).
+        success(function (data) {
+
+        }).
+        error(function (data) {
+          view.errors = data.errors || ['An internal error occurred'];
+        });
+      }
+
+    };
+
+    /**
+    * Initialize controller
+    */
     get();
-
-    // Store the model for a new URL
-    self.new = {};
-
-    // Save a new URL
-    this.save = function () {
-      url.shorten(self.new.full, self.new.short).
-      success(function (data) {
-        self.new = {};
-        get();
-      }).
-      error(function (data) {
-        self.errors = data.errors || ['An internal error occurred'];
-      });
-    };
-
-    // Remove a url
-    this.remove = function (u) {
-      url.remove(u._id).
-      success(function (data) {
-        get();
-      }).
-      error(function (data) {
-        self.errors = data.errors || ['An internal error occurred'];
-      });
-    };
+    listen();
 
   }]);

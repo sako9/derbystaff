@@ -4,11 +4,27 @@
 */
 angular
   .module('khe')
-  .factory('Url', ['$http', 'User', function ($http, User) {
+  .factory('Url', ['$http', '$filter', 'socketFactory', 'User', function ($http, $filter, socket, User) {
 
     var Url = function () {
 
       var user = new User();
+
+      /**
+      * A socket connected to /urls
+      */
+      var connection;
+      this.socket = function () {
+        if (!connection) {
+          var me = user.getMe();
+          var encoded = $filter('base64Encode')(me.key + ':' + me.token);
+          var s = io.connect(config.api + '/urls', {
+            query: 'authorization=' + encoded
+          });
+          connection = socket({ioSocket: s});
+        }
+        return connection;
+      };
 
       /**
       * Shorten a url

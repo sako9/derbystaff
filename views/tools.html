@@ -1,10 +1,8 @@
-<div ng-controller="StaffToolsCtrl as tools">
-  <requirestaff user="tools.user" error="true">
-    <staffheader></staffheader>
-    <staffsidebar>
-      <li><a>URL Shortener</a></li>
-    </staffsidebar>
-  </requirestaff>
+<requirestaff user="tools.me" error="true">
+  <staffheader></staffheader>
+  <staffsidebar>
+    <li><a>URL Shortener</a></li>
+  </staffsidebar>
 
   <br>
   <div class="small-12 large-9 columns">
@@ -24,15 +22,15 @@
             <span class="prefix">khe.io/</span>
           </div>
           <div class="small-9 large-10 columns">
-            <input type="text" ng-model="tools.new.short" placeholder="short" required>
+            <input type="text" ng-model="tools.url.new.short" placeholder="short" required>
           </div>
         </div>
         <div class="row collapse">
           <div class="small-10 columns">
-            <input type="text" ng-model="tools.new.full" placeholder="Full URL" required>
+            <input type="text" ng-model="tools.url.new.full" placeholder="Full URL" required>
           </div>
           <div class="small-2 columns">
-            <button ng-click="tools.save()" class="button postfix">Save</button>
+            <button ng-click="tools.url.save()" class="button postfix">Save</button>
           </div>
         </div>
       </form>
@@ -45,10 +43,11 @@
           <a href="{{url.full}}">{{url.full}}</a>
         </div>
         <div class="small-1 columns">
-          <a ng-click="tools.remove(url)" class="black"><i class="fa fa-trash fa-3x"></i></a>
+          <a ng-click="tools.url.remove(url)" class="black"><i class="fa fa-trash fa-3x"></i></a>
         </div>
       </div>
     </div>
 
   </div>
-</div>
+
+</requirestaff>
