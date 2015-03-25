@@ -1,11 +1,23 @@
 angular
   .module('khe')
-  .factory('Message', ['$http', 'User', function ($http, User) {
+  .factory('Message', ['$http', 'socketFactory', 'User', function ($http, socket, User) {
 
     var Message = function () {
 
       var self = this;
       var user = new User();
+
+      /**
+      * A socket connected to /messages
+      */
+      var connection;
+      this.socket = function () {
+        if (!connection) {
+          var s = io.connect(config.api + '/messages');
+          connection = socket({ioSocket: s});
+        }
+        return connection;
+      };
 
       /**
       * Get a list of messages

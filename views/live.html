@@ -1,53 +1,49 @@
-<div ng-controller="LiveCtrl as live">
+<requirestaff user="live.me" error="true">
 
-  <requirestaff user="live.me" error="true">
+  <staffheader></staffheader>
 
-    <staffheader></staffheader>
+  <br>
+  <div class="row">
+    <div class="small-12 columns">
 
-    <br>
-    <div class="row">
-      <div class="small-12 columns">
-
-        <!-- New message -->
-        <form ng-submit="live.create()">
-          <div class="row">
-            <div class="small-12 columns">
-              <div class="row collapse">
-                <div class="small-10 columns">
-                  <input type="text" placeholder="Hello, hackers!" ng-model="live.new.text">
-                </div>
-                <div class="small-2 columns">
-                  <button class="button postfix">Send</button>
-                </div>
+      <!-- New message -->
+      <form ng-submit="live.message.create()">
+        <div class="row">
+          <div class="small-12 columns">
+            <div class="row collapse">
+              <div class="small-10 columns">
+                <input type="text" placeholder="Hello, hackers!" ng-model="live.message.new.text">
+              </div>
+              <div class="small-2 columns">
+                <button class="button postfix">Send</button>
               </div>
             </div>
           </div>
-        </form>
-        <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Need help? Click here for a Markdown Cheat Sheet.</a>
+        </div>
+      </form>
+      <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Need help? Click here for a Markdown Cheat Sheet.</a>
 
-        <!-- List of messages -->
-        <div ng-repeat="message in live.messages | orderBy:'created':true" class="expandable-list-item">
+      <!-- List of messages -->
+      <div ng-repeat="message in live.messages | orderBy:'created':true" class="expandable-list-item">
 
-          <div class="row">
+        <div class="row">
 
-            <div class="small-12 columns content">
+          <div class="small-12 columns content">
 
-              <div class="small-11 columns">
-                <span ng-bind-html="message.text|markdown|unsafe"></span>
-                <span class="small grey">{{message.created|relativeDate}}</span>
-              </div>
-              <div class="small-1 columns align-right">
-                <a ng-click="live.delete(message)" class="black"><i class="fa fa-trash fa-2x"></i></a>
-              </div>
-
+            <div class="small-11 columns">
+              <span ng-bind-html="message.text|markdown|unsafe"></span>
+              <span class="small grey">{{message.created|relativeDate}}</span>
             </div>
-          </div>
+            <div class="small-1 columns align-right">
+              <a ng-click="live.message.delete(message)" class="black"><i class="fa fa-trash fa-2x"></i></a>
+            </div>
 
+          </div>
         </div>
 
       </div>
+
     </div>
+  </div>
 
-  </requirestaff>
-
-</div>
+</requirestaff>

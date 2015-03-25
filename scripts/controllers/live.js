@@ -3,63 +3,111 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/live', {
       templateUrl: '/views/live.html',
-      controller: 'LiveCtrl'
+      controller: 'LiveCtrl as live'
     });
   }])
-  .controller('LiveCtrl', ['User', 'Message', 'Socket', function (User, Message, Socket) {
+  .controller('LiveCtrl', ['User', 'Message', function (User, Message) {
 
-    var self = this;
-    var user = new User();
-    var message = new Message();
+    /**
+    * The template interface
+    */
+    var view = this;
 
-    self.me = user.getMe();
-    self.messages = [];
+    var Models = {
+      user: new User(),
+      message: new Message()
+    };
 
-    // Get an initial list of messages
+    /**
+    * Logged in user
+    */
+    view.me = Models.user.getMe();
+
+    /**
+    * An array of all messages
+    */
+    view.messages = [];
+
+    /**
+    * Populate the list of messages
+    */
     function get() {
-      message.list().
+      Models.message.list().
       success(function (data) {
-        self.messages = data.messages;
+        view.messages = data.messages;
       }).
       error(function (data) {
-        self.errors = data.errors || ['An internal error has occurred'];
+        view.errors = data.errors || ['An internal error has occurred'];
       });
     }
-    get();
 
-    // Create a new message
-    self.new = {};
-    self.create = function () {
-      message.create(self.new.text).
-      success(function (data) {
-        self.new = {};
-      }).
-      error(function (data) {
-        self.errors = data.errors || ['An internal error had occurred'];
+    /**
+    * Set up socket connections
+    */
+    function listen() {
+      // Message created
+      Models.message.socket().on('create', function (message) {
+        view.messages.push(message);
       });
-    };
 
-    // Delete a message
-    self.delete = function (m) {
-      message.delete(m._id).
-      error(function (data) {
-        self.errors = data.errors || ['An internal error has occurred'];
+      // Message updated
+      Models.message.socket().on('update', function (message) {
+        view.messages = view.messages.map(function (m) {
+          if (m._id == message._id) {
+            m = message;
+          }
+          return m;
+        });
       });
-    };
 
-    // Watch for new messages
-    Socket.on('POST /messages', function (message) {
-      self.messages.push(message);
-    });
+      // Message deleted
+      Models.message.socket().on('delete', function (message) {
+        view.messages = view.messages.filter(function (m) {
+          return m._id != message._id;
+        });
+      });
+    }
 
-    // Watch for message deletions
-    Socket.on('DELETE /messages/:id', function (id) {
-      for (var i = 0; i < self.messages.length; i++) {
-        if (self.messages[i]._id == id) {
-          self.messages.splice(i, 1);
-          break;
-        }
+    view.message = {
+
+      /**
+      * An object containing the new message
+      */
+      new: {},
+
+      /**
+      * Send the new message
+      */
+      create: function () {
+        var self = this;
+        Models.message.create(self.new.text).
+        success(function (data) {
+          self.new = {};
+        }).
+        error(function (data) {
+          view.errors = data.errors || ['An internal error had occurred'];
+        });
+      },
+
+      /**
+      * Delete a given message
+      */
+      delete: function (message) {
+        Models.message.delete(message._id).
+        success(function (data) {
+
+        }).
+        error(function (data) {
+          view.errors = data.errors || ['An internal error has occurred'];
+        });
       }
-    });
+
+    };
+
+    /**
+    * Initialize controller
+    */
+    get();
+    listen();
 
   }]);
