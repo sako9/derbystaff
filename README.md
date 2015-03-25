@@ -4,7 +4,6 @@ This is the user interface for the hackathon management system. It's an AngularJ
 app that connects to the `hacksu/kenthackenough` repository.
 
 ## ToDo
-- Hook up websockets everywhere
 - Attendee statistics
     + Data visualization in 'Tools'
     + Basic stats on home page
