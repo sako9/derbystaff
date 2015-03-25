@@ -2,15 +2,18 @@
   <requirestaff user="att.me" error="true">
     <staffheader></staffheader>
     <staffsidebar>
-      <li><a ng-click="att.filter.apply('all')">All ({{att.all.length}})</a></li>
-      <li><a ng-click="att.filter.apply('applied')">Applied ({{att.applied.length}})</a></li>
-      <li><a ng-click="att.filter.apply('going')">Going ({{att.going.length}})</a></li>
-      <li><a ng-click="att.filter.apply('approved')">Approved ({{att.approved.length}})</a></li>
-      <li><a ng-click="att.filter.apply('waitlisted')">Waitlisted ({{att.waitlisted.length}})</a></li>
-      <li><a ng-click="att.filter.apply('pending')">Pending ({{att.pending.length}})</a></li>
-      <li><a ng-click="att.filter.apply('denied')">Denied ({{att.denied.length}})</a></li>
-      <li><a ng-click="att.filter.apply('travel')">Travel Requests ({{att.travel.length}})</a></li>
-      <li><a ng-click="att.filter.apply('checked')">Checked In ({{att.checked.length}})</a></li>
+      <fieldset>
+        <legend>Filters</legend>
+        <li><a ng-click="att.filter.apply('all')">All ({{att.all.length}})</a></li>
+        <li><a ng-click="att.filter.apply('applied')">Applied ({{att.applied.length}})</a></li>
+        <li><a ng-click="att.filter.apply('going')">Going ({{att.going.length}})</a></li>
+        <li><a ng-click="att.filter.apply('approved')">Approved ({{att.approved.length}})</a></li>
+        <li><a ng-click="att.filter.apply('waitlisted')">Waitlisted ({{att.waitlisted.length}})</a></li>
+        <li><a ng-click="att.filter.apply('pending')">Pending ({{att.pending.length}})</a></li>
+        <li><a ng-click="att.filter.apply('denied')">Denied ({{att.denied.length}})</a></li>
+        <li><a ng-click="att.filter.apply('travel')">Travel Requests ({{att.travel.length}})</a></li>
+        <li><a ng-click="att.filter.apply('checked')">Checked In ({{att.checked.length}})</a></li>
+      </fieldset>
       <li class="divider"></li>
       <li><a href="/attendees/checkin">Check In</a></li>
     </staffsidebar>
