@@ -1,11 +1,27 @@
 angular
   .module('khe')
-  .factory('Ticket', ['$http', 'User', function ($http, User) {
+  .factory('Ticket', ['$http', '$filter', 'socketFactory', 'User', function ($http, $filter, socket, User) {
 
     var Ticket = function () {
 
       var self = this;
       var user = new User();
+
+      /**
+      * A socket connected to /tickets
+      */
+      var connection;
+      this.socket = function () {
+        if (!connection) {
+          var me = user.getMe();
+          var encoded = $filter('base64Encode')(me.key + ':' + me.token);
+          var s = io.connect(config.api + '/tickets', {
+            query: 'authorization=' + encoded
+          });
+          connection = socket({ioSocket: s});
+        }
+        return connection;
+      };
 
       /**
       * Get a list of tickets
