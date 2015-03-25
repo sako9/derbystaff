@@ -14,14 +14,9 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    # install nginx, npm, and bower
+    # install nginx
     apt-get update
-    apt-get install -y nginx nodejs npm
-    npm install -g npm
-    npm install -g bower
-    # install dependencies
-    cd /vagrant
-    bower install
+    apt-get install -y nginx
     # set up nginx
     if [ -f /etc/nginx/sites-enabled/default ]; then
       rm /etc/nginx/sites-enabled/default
