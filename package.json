@@ -17,13 +17,13 @@
   },
   "homepage": "https://github.com/hacksu/kenthackenough-ui-staff",
   "devDependencies": {
-    "gulp": "^3.8.11",
-    "gulp-concat": "^2.5.2",
-    "gulp-jshint": "^1.9.4",
-    "gulp-minify-css": "^1.0.0",
-    "gulp-plumber": "^1.0.0",
-    "gulp-uglify": "^1.1.0",
-    "jshint-stylish": "^1.0.1",
-    "underscore": "^1.8.2"
+    "gulp": "3.8.x",
+    "gulp-concat": "2.5.x",
+    "gulp-jshint": "1.9.x",
+    "gulp-minify-css": "1.0.x",
+    "gulp-plumber": "1.0.x",
+    "gulp-uglify": "1.1.x",
+    "jshint-stylish": "1.0.x",
+    "underscore": "1.8.x"
   }
 }

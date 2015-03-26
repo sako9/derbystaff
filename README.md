@@ -19,7 +19,8 @@ app that connects to the `hacksu/kenthackenough` repository.
 5. Open `config/config.js` and enter desired values
 6. `vagrant up`
 7. `bower install`
-8. Develop while running `gulp watch`
+8. `npm install`
+9. Run `gulp watch` while developing
 
 ### Production
 ##### Install nginx and npm
