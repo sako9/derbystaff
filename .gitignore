@@ -11,3 +11,4 @@ build/Release
 .grunt
 config.js
 .DS_Store
+dist
