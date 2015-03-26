@@ -7,7 +7,6 @@ app that connects to the `hacksu/kenthackenough` repository.
 - Attendee statistics
     + Data visualization in 'Tools'
     + Basic stats on home page
-- Use grunt
 
 ## Setup
 
