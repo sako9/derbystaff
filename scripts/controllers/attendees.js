@@ -214,7 +214,7 @@ angular
           case 'checked':
             view.users = view.checked;
             break;
-        };
+        }
       }
 
     };

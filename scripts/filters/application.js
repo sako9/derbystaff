@@ -8,16 +8,12 @@ angular
       switch (abbr) {
         case 'S':
           return 'Small';
-          break;
         case 'M':
           return 'Medium';
-          break;
         case 'L':
           return 'Large';
-          break;
         case 'XL':
           return 'X-Large';
-          break;
       }
     };
 
