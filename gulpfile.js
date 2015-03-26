@@ -70,6 +70,7 @@ var uglify = require('gulp-uglify');
 var minify = require('gulp-minify-css');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
+var plumber = require('gulp-plumber');
 var _ = require('underscore');
 
 /**
@@ -96,6 +97,7 @@ gulp.task('lint', function () {
 */
 gulp.task('build-scripts', function () {
   return gulp.src(scripts)
+    .pipe(plumber())
     .pipe(concat('scripts.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./dist/scripts/'));
