@@ -5,6 +5,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.box = "ubuntu/trusty64"
 
+  # Use a special shared directory
+  config.vm.synced_folder "./", "/var/www/kenthackenough-ui-staff"
+
   # Forward port
   config.vm.network "forwarded_port", guest: 80, host: 3000
 
