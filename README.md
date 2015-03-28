@@ -1,7 +1,6 @@
 # Kent Hack Enough *Staff*
 
-This is the user interface for the hackathon management system. It's an AngularJS
-app that connects to the `hacksu/kenthackenough` repository.
+This is the user interface for the hackathon management system. It's an AngularJS app that connects to the `hacksu/kenthackenough` repository.
 
 ## ToDo
 - Attendee statistics
