@@ -11,7 +11,7 @@ angular
         controller: 'StaffEmailCtrl as ctrl'
       });
   }])
-  .controller('StaffEmailCtrl', ['User', 'Email', 'Application', function (User, Email, Application) {
+  .controller('StaffEmailCtrl', ['User', 'Email', 'Application', 'News', function (User, Email, Application, News) {
 
     /**
     * The interface for any templates using this controller.
@@ -21,7 +21,8 @@ angular
     var Models = {
       user: new User(),
       email: new Email(),
-      application: new Application()
+      application: new Application(),
+      news: new News()
     };
 
     /**
@@ -33,6 +34,11 @@ angular
     * An array of users that emails can be sent to
     */
     var users = [];
+
+    /**
+    * An array of people on the newsletter
+    */
+    var news = [];
 
     /**
     * An array of sent emails
@@ -56,6 +62,15 @@ angular
       Models.application.list().
       success(function (data) {
         view.users = data.users;
+      }).
+      error(function (data) {
+        view.errors = data.errors || ['An internal error occurred'];
+      });
+
+      // Get a list of people on the newsletter
+      Models.news.list().
+      success(function (data) {
+        news = data.news;
       }).
       error(function (data) {
         view.errors = data.errors || ['An internal error occurred'];
@@ -101,7 +116,22 @@ angular
           body: self.email.body
         };
 
-        if (self.group != 'custom') {
+        if (self.group == 'custom') {
+          // We have a list of individual emails
+          angular.extend(payload, {
+            recipients: {
+              emails: self.email.emails.split(', ')
+            }
+          });
+        } else if (self.group == 'news') {
+          angular.extend(payload, {
+            recipients: {
+              emails: news.map(function (obj) {
+                return obj.email;
+              })
+            }
+          });
+        } else {
           // set up our where clause
           switch (self.group) {
             case 'all':
@@ -224,13 +254,6 @@ angular
               break;
           }
 
-        } else {
-          // We have a list of individual emails
-          angular.extend(payload, {
-            recipients: {
-              emails: self.email.emails.split(', ')
-            }
-          });
         }
 
         // send the email
