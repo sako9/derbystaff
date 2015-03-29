@@ -49,6 +49,7 @@ angular
     function get() {
       Models.application.list().
       success(function (data) {
+        view.errors = null;
         view.users = data.users;
         updateCount();
       }).
@@ -146,6 +147,7 @@ angular
         self.application.phone = self.application.phone.replace(/\D/g,'');
         Models.user.quick(self.application).
         success(function (data) {
+          view.errors = null;
           self.application = {};
         }).
         error(function (data) {
@@ -177,7 +179,6 @@ angular
           console.log(data);
         }).
         error(function (data) {
-          console.log(data);
           view.errors = data.errors || ['An internal error has occurred'];
         });
       }
@@ -192,6 +193,7 @@ angular
         checked: user.application.checked
       }).
       success(function (data) {
+        view.errors = null;
       }).
       error(function (data) {
         view.errors = data.errors || ['An internal error occurred'];

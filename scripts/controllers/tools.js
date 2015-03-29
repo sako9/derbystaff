@@ -34,6 +34,7 @@ angular
     function get() {
       Models.url.list().
       success(function (data) {
+        view.errors = null;
         view.urls = data.urls;
       }).
       error(function (data) {
@@ -72,6 +73,7 @@ angular
         var self = this;
         Models.url.shorten(self.new.full, self.new.short).
         success(function (data) {
+          view.errors = null;
           self.new = {};
         }).
         error(function (data) {
@@ -85,7 +87,7 @@ angular
       remove: function (url) {
         Models.url.remove(url._id).
         success(function (data) {
-
+          view.errors = null;
         }).
         error(function (data) {
           view.errors = data.errors || ['An internal error occurred'];

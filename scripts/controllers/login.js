@@ -17,6 +17,7 @@ angular
         password: self.user.password
       }).
       success(function (data) {
+        view.errors = null;
         user.setMe(data);
         $location.path('/');
       }).

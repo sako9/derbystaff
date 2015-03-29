@@ -25,11 +25,6 @@ angular
     view.me = Models.user.getMe();
 
     /**
-    * Any errors to display
-    */
-    view.errors = [];
-
-    /**
     * An array of the currently displayed users
     */
     view.users = [];
@@ -53,6 +48,7 @@ angular
     function get() {
       Models.application.list().
       success(function (data) {
+        view.errors = null;
         view.all = data.users;
         reload();
       }).
@@ -259,10 +255,11 @@ angular
           status: user.application.status
         }).
         success(function (data) {
+          view.errors = null;
           user.editingStatus = false;
         }).
         error(function (data) {
-          errors = data.errors || ['An internal error occurred'];
+          view.errors = data.errors || ['An internal error occurred'];
         });
       },
 
@@ -294,10 +291,11 @@ angular
           checked: user.application.checked
         }).
         success(function (data) {
+          view.errors = null;
           user.editingChecked = false;
         }).
         error(function (data) {
-          errors = data.errors || ['An internal error occurred'];
+          view.errors = data.errors || ['An internal error occurred'];
         });
       },
 
@@ -329,10 +327,11 @@ angular
           role: user.role
         }).
         success(function (data) {
+          view.errors = null;
           user.editingRole = false;
         }).
         error(function (data) {
-          errors = data.errors || ['An internal error occurred'];
+          view.errors = data.errors || ['An internal error occurred'];
         });
       },
 

@@ -52,6 +52,7 @@ angular
       // Get list of old emails
       Models.email.list().
       success(function (data) {
+        view.errors = null;
         view.emails = data.emails;
       }).
       error(function (data) {
@@ -61,6 +62,7 @@ angular
       // Get list of users
       Models.application.list().
       success(function (data) {
+        view.errors = null;
         view.users = data.users;
       }).
       error(function (data) {
@@ -70,6 +72,7 @@ angular
       // Get a list of people on the newsletter
       Models.news.list().
       success(function (data) {
+        view.errors = null;
         news = data.news;
       }).
       error(function (data) {
@@ -259,6 +262,7 @@ angular
         // send the email
         Models.email.send(payload).
         success(function (data) {
+          view.errors = null;
           self.email = {};
           self.group = 'all';
           view.successes = ['Your message has been sent'];

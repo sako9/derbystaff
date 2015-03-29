@@ -42,6 +42,7 @@ angular
     function get() {
       Models.ticket.list().
       success(function (data) {
+        view.errors = null;
         view.all = data.tickets;
         reload();
       }).
@@ -227,6 +228,7 @@ angular
           worker: view.me.email
         }).
         success(function (data) {
+          view.errors = null;
           ticket.editingStatus = false;
         }).
         error(function (data) {

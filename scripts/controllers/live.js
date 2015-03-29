@@ -34,6 +34,7 @@ angular
     function get() {
       Models.message.list().
       success(function (data) {
+        view.errors = null;
         view.messages = data.messages;
       }).
       error(function (data) {
@@ -82,6 +83,7 @@ angular
         var self = this;
         Models.message.create(self.new.text).
         success(function (data) {
+          view.errors = null;
           self.new = {};
         }).
         error(function (data) {
@@ -95,7 +97,7 @@ angular
       delete: function (message) {
         Models.message.delete(message._id).
         success(function (data) {
-
+          view.errors = null;
         }).
         error(function (data) {
           view.errors = data.errors || ['An internal error has occurred'];
