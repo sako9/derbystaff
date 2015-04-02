@@ -5,7 +5,7 @@
 */
 angular
   .module('khe')
-  .factory('User', ['$http', '$cookieStore', '$filter', 'socketFactory', function ($http, $cookies, $filter, socket) {
+  .factory('User', ['$http', '$cookieStore', '$filter', 'socketFactory', '$location', function ($http, $cookies, $filter, socket, $location) {
 
     var User = function () {
 
@@ -28,7 +28,7 @@ angular
       /**
       * Store the user locally
       * @param me An object representing the logged-in user
-      *           {key: String, token: String, role: String}
+      *           {key: String, token: String, role: String, refresh: String, expires: Date}
       */
       this.setMe = function (me) {
         if (Modernizr.localstorage) {
@@ -40,7 +40,7 @@ angular
 
       /**
       * Retrieve the logged in user from local storage
-      * @return {key: String, token: String, role: String}
+      * @return {key: String, token: String, role: String, refresh: String, expires: Date}
       */
       this.getMe = function () {
         if (Modernizr.localstorage) {
@@ -56,9 +56,14 @@ angular
       this.removeMe = function () {
         var req = this.authorize({
           method: 'DELETE',
-          url: config.api + '/users/token'
+          url: config.api + '/users/token',
+          data: {
+            client: config.client
+          }
         });
-        $http(req);
+        $http(req).
+        success(function () {}).
+        error(function () {});
         if (Modernizr.localstorage) {
           localStorage.removeItem('me');
         } else {
@@ -67,11 +72,50 @@ angular
       };
 
       /**
+      * Refresh the user's token if necessary.
+      * If the user's token doesn't need refreshed, the callback is called
+      * immediately.
+      * @param callback (Optional) called when finished
+      */
+      var self = this;
+      function refreshToken(callback) {
+        var me = self.getMe();
+        var time = new Date(me.expires).getTime() - (1000 * 60 * 60 * 24);
+        if (Date.now() > time) {
+          var req = {
+            method: 'POST',
+            url: config.api + '/users/token/refresh',
+            data: {
+              client: config.client,
+              refresh: me.refresh
+            }
+          };
+          $http(req).
+          success(function (data) {
+            me.key = data.key;
+            me.token = data.token;
+            me.refresh = data.refresh;
+            me.expires = data.expires;
+            self.setMe(me);
+            return callback && callback();
+          }).
+          error(function (data) {
+            // make them log in again
+            self.removeMe();
+            $location.path('/');
+          });
+        } else {
+          return callback && callback();
+        }
+      }
+
+      /**
       * Adds authorization headers to a request object
-      * @param req A request object
+      * @param req A request object to authorize
       * @return The request object with auth headers attached
       */
       this.authorize = function (req) {
+        refreshToken();
         var me = this.getMe();
         var encoded = $filter('base64Encode')(me.key + ':' + me.token);
         var ext = {
@@ -129,7 +173,8 @@ angular
           url: config.api + '/users/token',
           data: {
             email: user.email,
-            password: user.password
+            password: user.password,
+            client: config.client
           }
         };
         return $http(req);
