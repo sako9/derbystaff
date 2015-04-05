@@ -102,7 +102,7 @@ angular
             me.refresh = data.refresh;
             me.expires = data.expires;
             self.setMe(me);
-            callback && callback();
+            return callback && callback();
           }).
           error(function (data) {
             // make them log in again
@@ -110,7 +110,7 @@ angular
             $location.path('/');
           });
         } else {
-          callback && callback();
+          return callback && callback();
         }
       }
 
@@ -142,6 +142,7 @@ angular
           method: 'POST',
           url: config.api + '/users',
           data: {
+            client: config.client,
             email: user.email,
             password: user.password
           }

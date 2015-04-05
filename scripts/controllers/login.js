@@ -28,4 +28,20 @@ angular
       });
     };
 
+    self.register = function () {
+      user.register({
+        email: self.user.email,
+        password: self.user.password
+      }).
+      success(function (data) {
+        self.errors = null;
+        user.setMe(data);
+        self.successes = ['You have successfully registered. Please wait for staff approval.'];
+        self.showRegister = false;
+      }).
+      error(function (data) {
+        self.errors = data.errors || ['An internal error has occurred'];
+      });
+    };
+
   }]);

@@ -13,7 +13,7 @@ angular
     var user = new User();
     self.user = user.getMe();
 
-    if (!self.user) {
+    if (!self.user || self.user.role == 'attendee') {
       $location.path('/login');
     }
 
