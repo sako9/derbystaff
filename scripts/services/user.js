@@ -80,12 +80,17 @@ angular
       var self = this;
       function refreshToken(callback) {
         var me = self.getMe();
+        if (!me || !me.key || !me.expires || !me.refresh) {
+          $location.path('/');
+          return;
+        }
         var time = new Date(me.expires).getTime() - (1000 * 60 * 60 * 24);
         if (Date.now() > time) {
           var req = {
             method: 'POST',
             url: config.api + '/users/token/refresh',
             data: {
+              key: me.key,
               client: config.client,
               refresh: me.refresh
             }
@@ -97,7 +102,7 @@ angular
             me.refresh = data.refresh;
             me.expires = data.expires;
             self.setMe(me);
-            return callback && callback();
+            callback && callback();
           }).
           error(function (data) {
             // make them log in again
@@ -105,7 +110,7 @@ angular
             $location.path('/');
           });
         } else {
-          return callback && callback();
+          callback && callback();
         }
       }
 
