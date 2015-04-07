@@ -45,7 +45,8 @@ var bowerJs = [
   './bower_components/angular-socket-io/socket.min.js',
   './bower_components/angular-cookies/angular-cookies.min.js',
   './bower_components/moment/min/moment.min.js',
-  './bower_components/marked/marked.min.js'
+  './bower_components/marked/marked.min.js',
+  './bower_components/angular-loading-bar/build/loading-bar.min.js'
 
 ];
 
@@ -55,7 +56,8 @@ var bowerJs = [
 var bowerCss = [
 
   './bower_components/foundation/css/foundation.css',
-  './bower_components/font-awesome/css/font-awesome.css'
+  './bower_components/font-awesome/css/font-awesome.css',
+  './bower_components/angular-loading-bar/build/loading-bar.min.css'
 
 ];
 
