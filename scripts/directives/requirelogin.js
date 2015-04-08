@@ -1,6 +1,6 @@
 angular
   .module('khe')
-  .directive('requirelogin', ['$location', 'User', function () {
+  .directive('requirelogin', ['$location', 'User', function ($location, User) {
     var user = new User().getMe();
     if (!user) {
       $location.path('/login');
