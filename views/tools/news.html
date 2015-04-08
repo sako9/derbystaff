@@ -1,0 +1,30 @@
+<requirestaff user="news.me" error="true">
+  <staffheader></staffheader>
+
+  <div ng-include src="'/views/tools/sidebar.html'"></div>
+
+  <br>
+  <div class="small-12 large-9 columns">
+
+    <!-- Errors, if there are any -->
+    <div ng-if="news.errors">
+      <div data-alert class="alert-box alert">
+        <span ng-repeat="error in news.errors">{{error}}<br></span>
+        <a href="#" class="close">&times;</a>
+      </div>
+    </div>
+
+    <div class="row expandable-list-item" ng-repeat="person in news.all | orderBy:'created':true">
+      <div class="row header">
+        <div class="small-9 columns">
+          {{person.email}}
+        </div>
+        <div class="small-3 columns small align-right">
+          {{person.created | relativeDate}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</requirestaff>
