@@ -1,12 +1,12 @@
 angular
   .module('khe')
   .config(['$routeProvider', function ($router) {
-    $router.when('/tools', {
-      templateUrl: '/views/tools.html',
-      controller: 'StaffToolsCtrl as tools'
+    $router.when('/tools/urls', {
+      templateUrl: '/views/tools/urls.html',
+      controller: 'ToolsUrlsCtrl as urls'
     });
   }])
-  .controller('StaffToolsCtrl', ['User', 'Url', function (User, Url) {
+  .controller('ToolsUrlsCtrl', ['User', 'Url', function (User, Url) {
 
     /**
     * Template interface
@@ -26,7 +26,7 @@ angular
     /**
     * Array of existing urls
     */
-    view.urls = [];
+    view.all = [];
 
     /**
     * Get an initial list of existing urls
@@ -35,7 +35,7 @@ angular
       Models.url.list().
       success(function (data) {
         view.errors = null;
-        view.urls = data.urls;
+        view.all = data.urls;
       }).
       error(function (data) {
         view.errors = data.errors || ['An internal error has occurred'];
@@ -48,18 +48,18 @@ angular
     function listen() {
       // Url created
       Models.url.socket().on('create', function (url) {
-        view.urls.push(url);
+        view.all.push(url);
       });
 
       // Url deleted
       Models.url.socket().on('delete', function (url) {
-        view.urls = view.urls.filter(function (u) {
+        view.all = view.all.filter(function (u) {
           return u._id != url._id;
         });
       });
     }
 
-    view.url = {
+    view.single = {
 
       /**
       * The model for a new URL

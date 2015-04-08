@@ -1,16 +1,15 @@
-<requirestaff user="tools.me" error="true">
+<requirestaff user="urls.me" error="true">
   <staffheader></staffheader>
-  <staffsidebar>
-    <li><a>URL Shortener</a></li>
-  </staffsidebar>
+
+  <div ng-include src="'/views/tools/sidebar.html'"></div>
 
   <br>
   <div class="small-12 large-9 columns">
 
     <!-- Errors, if there are any -->
-    <div ng-if="tools.errors">
+    <div ng-if="urls.errors">
       <div data-alert class="alert-box alert">
-        <span ng-repeat="error in tools.errors">{{error}}<br></span>
+        <span ng-repeat="error in urls.errors">{{error}}<br></span>
         <a href="#" class="close">&times;</a>
       </div>
     </div>
@@ -22,28 +21,28 @@
             <span class="prefix">khe.io/</span>
           </div>
           <div class="small-9 large-10 columns">
-            <input type="text" ng-model="tools.url.new.short" placeholder="short" required>
+            <input type="text" ng-model="urls.single.new.short" placeholder="short" required>
           </div>
         </div>
         <div class="row collapse">
           <div class="small-10 columns">
-            <input type="text" ng-model="tools.url.new.full" placeholder="Full URL" required>
+            <input type="text" ng-model="urls.single.new.full" placeholder="Full URL" required>
           </div>
           <div class="small-2 columns">
-            <button ng-click="tools.url.save()" class="button postfix">Save</button>
+            <button ng-click="urls.single.save()" class="button postfix">Save</button>
           </div>
         </div>
       </form>
     </div>
 
-    <div class="row expandable-list-item" ng-repeat="url in tools.urls">
+    <div class="row expandable-list-item" ng-repeat="url in urls.all">
       <div class="row header">
         <div class="small-11 columns">
           <span class="large bold">/{{url.short}}</span><br>
           <a href="{{url.full}}">{{url.full}}</a>
         </div>
         <div class="small-1 columns">
-          <a ng-click="tools.url.remove(url)" class="black"><i class="fa fa-trash fa-3x"></i></a>
+          <a ng-click="urls.single.remove(url)" class="black"><i class="fa fa-trash fa-3x"></i></a>
         </div>
       </div>
     </div>

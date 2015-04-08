@@ -5,33 +5,6 @@
 */
 
 /**
-* An array of all javascript libraries to build.
-* You should only have to change this if you add new folders
-* to scripts/
-*/
-var scripts = [
-
-  './config/config.js',
-
-  './scripts/*',
-  './scripts/controllers/*',
-  './scripts/directives/*',
-  './scripts/filters/*',
-  './scripts/services/*'
-
-];
-
-/**
-* A list of all css files to build. You really shouldn't ever have to
-* change this.
-*/
-var css = [
-
-  './styles/*'
-
-];
-
-/**
 * All bower javascript files. Add to this list to install more dependencies
 */
 var bowerJs = [
@@ -57,6 +30,27 @@ var bowerCss = [
 
   './bower_components/foundation/css/foundation.css',
   './bower_components/font-awesome/css/font-awesome.css'
+
+];
+
+/**
+* An array of all javascript libraries to build.
+* This should almost never change.
+*/
+var scripts = [
+
+  './config/config.js',
+  './scripts/**/*.js'
+
+];
+
+/**
+* A list of all css files to build. You really shouldn't ever have to
+* change this.
+*/
+var css = [
+
+  './styles/*'
 
 ];
 
