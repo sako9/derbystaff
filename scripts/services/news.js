@@ -1,6 +1,6 @@
 angular
   .module('khe')
-  .factory('News', ['$http', 'socketFactory', 'User', function ($http, socket, User) {
+  .factory('News', ['$http', '$filter', 'socketFactory', 'User', function ($http, $filter, socket, User) {
 
     var News = function () {
 
@@ -13,7 +13,11 @@ angular
       var connection;
       this.socket = function () {
         if (!connection) {
-          var s = io.connect(config.api + '/news');
+          var me = user.getMe();
+          var encoded = $filter('base64Encode')(me.key + ':' + me.token);
+          var s = io.connect(config.api + '/news', {
+            query: 'authorization=' + encoded
+          });
           connection = socket({ioSocket: s});
         }
         return connection;
