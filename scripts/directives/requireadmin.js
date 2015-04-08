@@ -1,6 +1,11 @@
 angular
   .module('khe')
-  .directive('requireadmin', function () {
+  .directive('requireadmin', ['$location', 'User', function ($location, User) {
+    var user = new User().getMe();
+    if (!user || user.role != 'admin') {
+      $location.path('/login');
+    }
+
     return {
 
       restrict: 'E',
@@ -14,4 +19,4 @@ angular
       }
 
     };
-  });
+  }]);
