@@ -63,6 +63,10 @@ a.black:hover {
   background-color: #faede7;
 }
 
+.top-bar-section li a:not(.button):hover {
+    background: #222 !important;
+}
+
 fieldset legend {
   background: none;
 }
