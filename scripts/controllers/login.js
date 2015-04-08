@@ -3,10 +3,10 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/login', {
       templateUrl: '/views/login.html',
-      controller: 'StaffLoginCtrl'
+      controller: 'LoginCtrl'
     });
   }])
-  .controller('StaffLoginCtrl', ['User', '$location', function (User, $location) {
+  .controller('LoginCtrl', ['User', '$location', function (User, $location) {
 
     var self = this;
     var user = new User();

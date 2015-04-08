@@ -3,10 +3,10 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/attendees', {
       templateUrl: '/views/attendees.html',
-      controller: 'StaffAttendeesCtrl as att'
+      controller: 'AttendeesCtrl as att'
     });
   }])
-  .controller('StaffAttendeesCtrl', ['User', 'Application', function (User, Application) {
+  .controller('AttendeesCtrl', ['User', 'Application', function (User, Application) {
 
     /**
     * The interface that a template can use. To see all variables available

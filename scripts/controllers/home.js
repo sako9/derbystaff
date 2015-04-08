@@ -4,10 +4,10 @@ angular
     $router
       .when('/', {
         templateUrl: '/views/home.html',
-        controller: 'StaffHomeCtrl'
+        controller: 'HomeCtrl'
       });
   }])
-  .controller('StaffHomeCtrl', ['User', '$location', function (User, $location) {
+  .controller('HomeCtrl', ['User', '$location', function (User, $location) {
 
     var self = this;
     var user = new User();

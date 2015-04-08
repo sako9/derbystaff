@@ -3,10 +3,10 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/attendees/checkin', {
       templateUrl: '/views/checkin.html',
-      controller: 'StaffCheckInCtrl as checkin'
+      controller: 'CheckInCtrl as checkin'
     });
   }])
-  .controller('StaffCheckInCtrl', ['User', 'Application', '$scope', function (User, Application, $scope) {
+  .controller('CheckInCtrl', ['User', 'Application', '$scope', function (User, Application, $scope) {
 
     /**
     * The view object is the interface for any template using this controller.

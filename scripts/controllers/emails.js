@@ -4,14 +4,14 @@ angular
     $router
       .when('/emails', {
         templateUrl: '/views/emails.html',
-        controller: 'StaffEmailCtrl as ctrl'
+        controller: 'EmailCtrl as ctrl'
       })
       .when('/emails/new', {
         templateUrl: '/views/emails-new.html',
-        controller: 'StaffEmailCtrl as ctrl'
+        controller: 'EmailCtrl as ctrl'
       });
   }])
-  .controller('StaffEmailCtrl', ['User', 'Email', 'Application', 'News', function (User, Email, Application, News) {
+  .controller('EmailCtrl', ['User', 'Email', 'Application', 'News', function (User, Email, Application, News) {
 
     /**
     * The interface for any templates using this controller.

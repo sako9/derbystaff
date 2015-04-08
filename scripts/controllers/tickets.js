@@ -3,10 +3,10 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/tickets', {
       templateUrl: '/views/tickets.html',
-      controller: 'StaffTicketCtrl as ctrl'
+      controller: 'TicketCtrl as ctrl'
     });
   }])
-  .controller('StaffTicketCtrl', ['User', 'Ticket', function (User, Ticket) {
+  .controller('TicketCtrl', ['User', 'Ticket', function (User, Ticket) {
 
     /**
     * Template interface
