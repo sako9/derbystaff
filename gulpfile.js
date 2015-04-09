@@ -19,7 +19,8 @@ var bowerJs = [
   './bower_components/angular-cookies/angular-cookies.min.js',
   './bower_components/moment/min/moment.min.js',
   './bower_components/marked/marked.min.js',
-  './bower_components/angular-loading-bar/build/loading-bar.min.js'
+  './bower_components/angular-loading-bar/build/loading-bar.min.js',
+  './bower_components/Chart.js/Chart.min.js'
 
 ];
 
