@@ -3,7 +3,7 @@ angular
   .config(['$routeProvider', function ($router) {
     $router.when('/login', {
       templateUrl: '/views/login.html',
-      controller: 'LoginCtrl'
+      controller: 'LoginCtrl as ctrl'
     });
   }])
   .controller('LoginCtrl', ['User', '$location', function (User, $location) {

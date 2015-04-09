@@ -6,66 +6,62 @@
   </ul>
 </nav>
 
-<div ng-controller="StaffLoginCtrl as ctrl">
+<!-- Successes, if there are any -->
+<div ng-if="ctrl.successes">
+  <div data-alert class="alert-box success">
+    <span ng-repeat="success in ctrl.successes">{{success}}<br></span>
+    <a href="#" class="close">&times;</a>
+  </div>
+</div>
 
-  <!-- Successes, if there are any -->
-  <div ng-if="ctrl.successes">
-    <div data-alert class="alert-box success">
-      <span ng-repeat="success in ctrl.successes">{{success}}<br></span>
-      <a href="#" class="close">&times;</a>
+<!-- Errors, if there are any -->
+<div ng-if="ctrl.errors">
+  <div data-alert class="alert-box alert">
+    <span ng-repeat="error in ctrl.errors">{{error}}<br></span>
+    <a href="#" class="close">&times;</a>
+  </div>
+</div>
+
+<div class="row" ng-if="!ctrl.showRegister">
+  <div class="small-12 columns">
+    <form ng-submit="ctrl.login()" class="validation">
+      <fieldset>
+        <legend>Login</legend>
+        <label>
+          Email
+          <input type="email" ng-model="ctrl.user.email" required>
+        </label>
+        <label>
+          Password
+          <input type="password" ng-model="ctrl.user.password" required>
+        </label>
+        <button>Login</button>
+      </fieldset>
+    </form>
+    <div class="row align-right">
+      <a ng-click="ctrl.showRegister = true">Register&nbsp;&nbsp;&nbsp;&nbsp;</a>
     </div>
   </div>
+</div>
 
-  <!-- Errors, if there are any -->
-  <div ng-if="ctrl.errors">
-    <div data-alert class="alert-box alert">
-      <span ng-repeat="error in ctrl.errors">{{error}}<br></span>
-      <a href="#" class="close">&times;</a>
+<div class="row" ng-if="ctrl.showRegister">
+  <div class="small-12 columns">
+    <form ng-submit="ctrl.register()" class="validation">
+      <fieldset>
+        <legend>Register</legend>
+        <label>
+          Email
+          <input type="email" ng-model="ctrl.user.email" required>
+        </label>
+        <label>
+          Password
+          <input type="password" ng-model="ctrl.user.password" required>
+        </label>
+        <button>Register</button>
+      </fieldset>
+    </form>
+    <div class="row align-right">
+      <a ng-click="ctrl.showRegister = false">Login&nbsp;&nbsp;&nbsp;&nbsp;</a>
     </div>
   </div>
-
-  <div class="row" ng-if="!ctrl.showRegister">
-    <div class="small-12 columns">
-      <form ng-submit="ctrl.login()" class="validation">
-        <fieldset>
-          <legend>Login</legend>
-          <label>
-            Email
-            <input type="email" ng-model="ctrl.user.email" required>
-          </label>
-          <label>
-            Password
-            <input type="password" ng-model="ctrl.user.password" required>
-          </label>
-          <button>Login</button>
-        </fieldset>
-      </form>
-      <div class="row align-right">
-        <a ng-click="ctrl.showRegister = true">Register&nbsp;&nbsp;&nbsp;&nbsp;</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" ng-if="ctrl.showRegister">
-    <div class="small-12 columns">
-      <form ng-submit="ctrl.register()" class="validation">
-        <fieldset>
-          <legend>Register</legend>
-          <label>
-            Email
-            <input type="email" ng-model="ctrl.user.email" required>
-          </label>
-          <label>
-            Password
-            <input type="password" ng-model="ctrl.user.password" required>
-          </label>
-          <button>Register</button>
-        </fieldset>
-      </form>
-      <div class="row align-right">
-        <a ng-click="ctrl.showRegister = false">Login&nbsp;&nbsp;&nbsp;&nbsp;</a>
-      </div>
-    </div>
-  </div>
-
 </div>
