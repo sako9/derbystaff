@@ -19,6 +19,10 @@
       </div>
     </div>
 
+    <div class="row">
+      <h3>Tickets <span class="small grey">{{ctrl.open.length}} open, {{ctrl.progress.length}} in progress, {{ctrl.closed.length}} closed</span></h3>
+    </div>
+
     <div ng-repeat="ticket in ctrl.tickets | orderBy:'created':true" class="row expandable-list-item">
       <!-- Header -->
       <div class="row header cursor-pointer" ng-click="ctrl.visibility.toggle(ticket)">
