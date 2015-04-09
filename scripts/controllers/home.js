@@ -4,7 +4,7 @@ angular
     $router
       .when('/', {
         templateUrl: '/views/home.html',
-        controller: 'HomeCtrl'
+        controller: 'HomeCtrl as home'
       });
   }])
   .controller('HomeCtrl', ['User', '$location', function (User, $location) {

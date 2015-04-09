@@ -1,10 +1,5 @@
-<div ng-controller="StaffHomeCtrl as home">
-  <requirestaff user="home.user" error="true">
-    <staffheader></staffheader>
-    <div class="row">
-      <div class="small-12 columns">
-        <a ng-click="home.logout()">Logout</a>
-      </div>
-    </div>
-  </requirestaff>
-</div>
+<requirestaff user="home.user" error="true">
+  <staffheader></staffheader>
+  <div ng-include="'/views/tools/stats.html'"></div>
+  <!-- <a ng-click="home.logout()">Logout</a> -->
+</requirestaff>
