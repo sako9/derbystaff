@@ -93,11 +93,18 @@ gulp.task('lint', function () {
 * Build programmer-defined javascript files
 */
 gulp.task('build-scripts', function () {
-  return gulp.src(scripts)
+  var normal = gulp.src(scripts)
     .pipe(plumber())
-    .pipe(concat('scripts.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('./dist/scripts/'));
+    .pipe(concat('scripts.min.js'));
+
+  if (process.env.NODE_ENV == 'production') {
+    return normal
+      .pipe(uglify())
+      .pipe(gulp.dest('./dist/scripts/'));
+  } else {
+    return normal
+      .pipe(gulp.dest('./dist/scripts/'));
+  }
 });
 
 /**
