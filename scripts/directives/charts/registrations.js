@@ -62,6 +62,11 @@ angular
             low: 0,
             showArea: true,
             lineSmooth: 0,
+            axisY: {
+              labelInterpolationFnc: function (value) {
+                if (value % 1 === 0) return value;
+              }
+            },
             axisX: {
               showGrid: false
             }
