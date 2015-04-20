@@ -27,9 +27,7 @@ angular
             labelInterpolationFnc: function(value) {
               var key = value.toLowerCase(); // male, female, or other
               var percent = Math.round((d[key] / total) * 100);
-              var label = value + ' (' + percent + '%)';
-              console.log(label);
-              return label;
+              return value + ' (' + percent + '%)';
             }
           });
 

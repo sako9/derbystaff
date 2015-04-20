@@ -51,6 +51,17 @@ angular
         return $http(req);
       };
 
+      /**
+      * Get a distribution of schools
+      */
+      this.schools = function () {
+        var req = user.authorize({
+          method: 'GET',
+          url: config.api + '/stats/schools'
+        });
+        return $http(req);
+      };
+
     };
 
     return Stats;
