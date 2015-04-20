@@ -40,6 +40,17 @@ angular
         return $http(req);
       };
 
+      /**
+      * Get a gender comparison
+      */
+      this.gender = function () {
+        var req = user.authorize({
+          method: 'GET',
+          url: config.api + '/stats/gender'
+        });
+        return $http(req);
+      };
+
     };
 
     return Stats;

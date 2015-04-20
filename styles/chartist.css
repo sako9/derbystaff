@@ -5,3 +5,19 @@
 .ct-chart .ct-series.ct-series-a .ct-area, .ct-chart .ct-series.ct-series-a .ct-slice:not(.ct-donut) {
   fill: #008CBA;
 }
+
+#gender.ct-chart {
+  height: 15em;
+}
+
+#gender.ct-chart .ct-chart-pie .ct-series.ct-series-a .ct-slice {
+  fill: #008CBA;
+}
+
+#gender.ct-chart .ct-chart-pie .ct-series.ct-series-b .ct-slice {
+  fill: #7FCEDF;
+}
+
+#gender.ct-chart .ct-chart-pie .ct-series.ct-series-c .ct-slice {
+  fill: #B4F2F9;
+}
