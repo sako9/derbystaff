@@ -29,6 +29,17 @@ angular
         return $http(req);
       };
 
+      /**
+      * Get the distribution of dietary restrictions
+      */
+      this.dietary = function () {
+        var req = user.authorize({
+          method: 'GET',
+          url: config.api + '/stats/dietary'
+        });
+        return $http(req);
+      };
+
     };
 
     return Stats;
