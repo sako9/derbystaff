@@ -47,8 +47,6 @@ angular
     */
     function listen() {
       Models.news.socket().on('create', function (person) {
-        console.log('create');
-        console.log(person);
         view.all.push(person);
       });
 
