@@ -1,0 +1,134 @@
+<requirestaff user="schedule.me" error="true">
+
+  <staffheader></staffheader>
+
+  <br>
+  <div class="row">
+    <div class="small-12 columns">
+
+      <h3>Schedule <span class="small grey">{{schedule.events.length}} events</span></h3>
+
+      <!-- New event -->
+      <form ng-submit="schedule.event.create()">
+        <fieldset>
+          <legend>Schedule a new event</legend>
+          <div class="small-12 large-6 columns">
+            <label>
+              Title<span class="red">*</span>
+              <input type="text" placeholder="Breakfast" ng-model="schedule.event.new.title">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Description
+              <input type="text" placeholder="The most important meal of the day" ng-model="schedule.event.new.description">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Start Time<span class="red">*</span>
+              <input type="date" ng-model="schedule.event.new.start">
+              <input type="time" ng-model="schedule.event.new.start">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              End Time<span class="red">*</span>
+              <input type="date" ng-model="schedule.event.new.end">
+              <input type="time" ng-model="schedule.event.new.end">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Type
+              <input type="text" placeholder="Food" ng-model="schedule.event.new.type">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Location
+              <input type="text" placeholder="Library" ng-model="schedule.event.new.location">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Group
+              <select ng-model="schedule.event.new.group">
+                <option value="attendee">Attendees</option>
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+              </select>
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Notify
+              <select ng-model="schedule.event.new.notify">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </label>
+          </div>
+          <div class="small-12 columns">
+            <button>Submit</button>
+          </div>
+        </fieldset>
+      </form>
+
+      <!-- List of events -->
+      <div ng-repeat="event in schedule.events | orderBy:'created'" class="expandable-list-item">
+
+        <div class="row">
+          <div class="small-12 columns content">
+
+            <!-- Title and type -->
+            <div class="small-8 columns">
+              <strong>{{event.title}}</strong>
+            </div>
+            <div class="small-4 columns align-right">
+              <i class="fa fa-pencil"></i> <a>Edit</a>
+              &nbsp;&nbsp;
+              <i class="fa fa-trash"></i> <a ng-click="schedule.event.delete(event)">Delete</a>
+            </div>
+
+            <!-- Description -->
+            <div class="small-12 columns" ng-if="event.description">
+              {{event.description}}
+            </div>
+
+            <!-- Time -->
+            <div class="small-12 large-6 columns">
+              <i class="fa align-fix fa-clock-o"></i> {{event.duration}}
+            </div>
+
+            <!-- Group -->
+            <div class="small-12 large-6 columns" ng-if="event.group">
+              <i class="fa align-fix fa-users"></i> {{event.group | capitalizeFirstLetter}}
+            </div>
+
+            <!-- Location -->
+            <div class="small-12 large-6 columns" ng-if="event.location">
+              <i class="fa align-fix fa-map-marker"></i> {{event.location}}
+            </div>
+
+            <!-- Notify -->
+            <div class="small-12 large-6 columns" ng-if="event.notify">
+              <i class="fa align-fix fa-bell"></i>
+              <span ng-if="event.notify">Notify</span>
+              <span ng-if="!event.notify">Quiet</span>
+            </div>
+
+            <!-- Type -->
+            <div class="small-12 columns" ng-if="event.type">
+              <i class="fa align-fix fa-tag"></i> {{event.type}}
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</requirestaff>
