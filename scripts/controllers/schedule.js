@@ -52,7 +52,6 @@ angular
     function listen() {
       // Event created
       Models.event.socket().on('create', function (event) {
-        console.log(event);
         view.events.push(event);
         reload();
       });
@@ -69,13 +68,16 @@ angular
 
       // Event deleted
       Models.event.socket().on('delete', function (event) {
-        console.log(event);
-        view.messages = view.messages.filter(function (e) {
+        view.events = view.events.filter(function (e) {
           return e._id != event._id;
         });
       });
     }
 
+    /**
+    * Run this whenever events are added to the page
+    * - Generates a human-readable datetime
+    */
     function reload() {
       for (var i = 0; i < view.events.length; ++i) {
         var start = moment(view.events[i].start).format('dddd, h:mma');
@@ -117,6 +119,32 @@ angular
         error(function (data) {
           view.errors = data.errors || ['An internal error has occurred'];
         });
+      }
+
+    };
+
+    view.edit = {
+
+      event: null,
+
+      modify: function (event) {
+        this.event = event;
+        this.event.start = new Date(this.event.start);
+        this.event.end = new Date(this.event.end);
+      },
+
+      save: function (event) {
+        Models.event.update(this.event._id, this.event).
+        success(function (data) {
+          view.errors = null;
+        }).
+        error(function (data) {
+          view.errors = data.errors;
+        });
+      },
+
+      cancel: function () {
+        this.event = null;
       }
 
     };

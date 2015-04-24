@@ -9,7 +9,9 @@
       <h3>Schedule <span class="small grey">{{schedule.events.length}} events</span></h3>
 
       <!-- New event -->
-      <form ng-submit="schedule.event.create()">
+      <a ng-click="showNewEvent=true" ng-show="!showNewEvent" class="button">Create an event</a>
+      <a ng-click="showNewEvent=false" ng-show="showNewEvent">Hide new event form</a>
+      <form ng-submit="schedule.event.create()" ng-if="showNewEvent">
         <fieldset>
           <legend>Schedule a new event</legend>
           <div class="small-12 large-6 columns">
@@ -75,6 +77,74 @@
         </fieldset>
       </form>
 
+      <!-- Edit an event -->
+      <form ng-submit="schedule.edit.save()" ng-if="schedule.edit.event">
+        <fieldset>
+          <legend>Edit an event</legend>
+          <div class="small-12 large-6 columns">
+            <label>
+              Title<span class="red">*</span>
+              <input type="text" placeholder="Breakfast" ng-model="schedule.edit.event.title">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Description
+              <input type="text" placeholder="The most important meal of the day" ng-model="schedule.edit.event.description">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Start Time<span class="red">*</span>
+              <input type="date" ng-model="schedule.edit.event.start">
+              <input type="time" ng-model="schedule.edit.event.start">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              End Time<span class="red">*</span>
+              <input type="date" ng-model="schedule.edit.event.end">
+              <input type="time" ng-model="schedule.edit.event.end">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Type
+              <input type="text" placeholder="Food" ng-model="schedule.edit.event.type">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Location
+              <input type="text" placeholder="Library" ng-model="schedule.edit.event.location">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Group
+              <select ng-model="schedule.edit.event.group">
+                <option value="attendee">Attendees</option>
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+              </select>
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
+              Notify
+              <select ng-model="schedule.edit.event.notify">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </label>
+          </div>
+          <div class="small-12 columns">
+            <button>Submit</button>
+            <button class="button secondary" ng-click="schedule.edit.cancel()">Cancel</button>
+          </div>
+        </fieldset>
+      </form>
+
       <!-- List of events -->
       <div ng-repeat="event in schedule.events | orderBy:'created'" class="expandable-list-item">
 
@@ -86,7 +156,7 @@
               <strong>{{event.title}}</strong>
             </div>
             <div class="small-4 columns align-right">
-              <i class="fa fa-pencil"></i> <a>Edit</a>
+              <i class="fa fa-pencil"></i> <a ng-click="schedule.edit.modify(event)">Edit</a>
               &nbsp;&nbsp;
               <i class="fa fa-trash"></i> <a ng-click="schedule.event.delete(event)">Delete</a>
             </div>
