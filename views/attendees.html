@@ -98,6 +98,12 @@
               <div class="small-12 large-6 columns">
                 <strong>RSVP:</strong> {{user.application.going|application:'going'}}
               </div>
+              <div class="small-12 large-6 columns">
+                <strong>Resume:</strong> <a ng-if="user.application.resume" href="{{user.application.resume|application:'resumeLink'}}">Download</a> <span ng-if="!user.application.resume">None</span>
+              </div>
+              <div class="small-12 large-6 columns">
+                <strong>Link:</strong> <a ng-if="user.application.link" class="black" target="_blank" href="{{user.application.link|fullUrl}}">{{user.application.link}}</a> <span ng-if="!user.application.link">None</span>
+              </div>
             </div>
             <hr>
             <!-- Editable information -->

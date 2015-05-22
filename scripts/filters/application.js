@@ -57,6 +57,11 @@ angular
       return gender;
     };
 
+    self.resumeLink = function (filename) {
+      if (!filename) return;
+      return config.api + '/users/application/resume/' + filename;
+    };
+
     return function (input, fn) {
       return self[fn](input);
     };
