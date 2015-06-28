@@ -1,6 +1,11 @@
 angular
   .module('khe')
-  .directive('staffheader', ['$compile', function ($compile) {
+  .directive('staffheader', ['$compile', 'Ticket', function ($compile, Ticket) {
+
+    var Models = {
+      ticket: new Ticket()
+    };
+
     return {
 
       restrict: 'E',
@@ -8,6 +13,17 @@ angular
       link: function(scope, element, attrs) {
         $compile(element.contents())(scope);
         $(document).foundation();
+
+        var view = {};
+
+        Models.ticket.list().
+        success(function (data) {
+          scope.tickets = data.tickets.filter(function (ticket) {
+            return ticket.open && !ticket.inProgress;
+          }).length;
+        }).
+        error(function (data) {});
+
       }
 
     };
