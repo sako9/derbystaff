@@ -1,6 +1,12 @@
 <div class="row">
   <fieldset>
     <legend>Schools</legend>
-    <div id="schools" class="ct-chart"></div>
+    <div class="row">
+    	<div class="large-3 medium-4 small-6 columns align-center end" ng-repeat="school in schools">
+    		<span class="small grey">{{school.name}}</span><br>
+        <span class="x-large bold">{{school.count}}</span>
+        <br><br>
+    	</div>
+    </div>
   </fieldset>
 </div>
