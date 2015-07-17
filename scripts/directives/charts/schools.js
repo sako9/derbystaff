@@ -16,14 +16,11 @@ angular
         Models.stats.schools().
         success(function (data) {
 
-          var count = 0;
-
           var labels = data.schools.map(function (r) {
             return r.name;
           });
 
           var numbers = data.schools.map(function (r) {
-            count++;
             return r.count;
           });
 
@@ -45,7 +42,7 @@ angular
             }
           });
 
-        $("#schools.ct-chart").height(count*25);
+          $("#schools.ct-chart").height(data.schools.length * 30);
 
         });
 
