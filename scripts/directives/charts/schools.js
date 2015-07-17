@@ -16,6 +16,12 @@ angular
         Models.stats.schools().
         success(function (data) {
 
+          data.schools.sort(function (a, b) {
+            if (a.count > b.count) return -1;
+            if (a.count < b.count) return 1;
+            return 0;
+          });
+
           var labels = data.schools.map(function (r) {
             return r.name;
           });

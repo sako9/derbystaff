@@ -42,6 +42,8 @@ angular
             }
           });
 
+          $("#shirts.ct-chart").height(4 * 30);
+
         });
 
       }

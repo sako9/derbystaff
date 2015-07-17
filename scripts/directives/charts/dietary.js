@@ -16,6 +16,12 @@ angular
         Models.stats.dietary().
         success(function (data) {
 
+          data.restrictions.sort(function (a, b) {
+            if (a.count > b.count) return -1;
+            if (a.count < b.count) return 1;
+            return 0;
+          });
+
           var labels = data.restrictions.map(function (r) {
             return r.name;
           });
@@ -41,6 +47,8 @@ angular
               }
             }
           });
+
+          $("#dietary.ct-chart").height(data.restrictions.length * 30);
 
         });
 
