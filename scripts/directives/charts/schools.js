@@ -45,7 +45,6 @@ angular
             }
           });
 
-        console.log(count);
         $("#schools.ct-chart").height(count*25);
 
         });
