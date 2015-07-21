@@ -19,7 +19,19 @@
 }
 
 .red {
-  color: red;
+  color: #ee4422;
+}
+
+.orange {
+  color: #ee8822;
+}
+
+.green {
+  color: #44aa66;
+}
+
+.blue {
+  color: #0088bb;
 }
 
 a.black {

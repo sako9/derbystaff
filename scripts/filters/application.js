@@ -4,6 +4,21 @@ angular
 
     var self = this;
 
+    self.icon = function (status) {
+      if (status.toLowerCase() == 'approved') {
+        return 'fa fa-check green';
+      }
+      if (status.toLowerCase() == 'waitlisted') {
+        return 'fa fa-list orange';
+      }
+      if (status.toLowerCase() == 'denied') {
+        return 'fa fa-times red';
+      }
+      if (status.toLowerCase() == 'pending') {
+        return 'fa fa-clock-o';
+      }
+    };
+
     self.shirt = function (abbr) {
       switch (abbr) {
         case 'S':

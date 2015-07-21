@@ -53,7 +53,7 @@
             <strong>{{user.application.name}}</strong>
           </div>
           <div class="small-3 columns align-right">
-            {{user.application.status|capitalizeFirstLetter}}
+            <i class="{{user.application.status|application:'icon'}}"></i>
           </div>
         </div>
         <!-- Content shown on expansion -->
