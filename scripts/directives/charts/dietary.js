@@ -48,7 +48,7 @@ angular
             }
           });
 
-          $("#dietary.ct-chart").height(data.restrictions.length * 30);
+          $("#dietary.ct-chart").height(data.restrictions.length * 35);
 
         });
 

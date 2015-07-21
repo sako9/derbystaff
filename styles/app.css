@@ -109,3 +109,7 @@ fieldset legend {
   height: 20em;
   border: 1px solid #F4F4F4;
 }
+
+.ct-chart .ct-label.ct-vertical {
+  line-height: 1rem;
+}
