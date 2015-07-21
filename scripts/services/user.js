@@ -84,8 +84,10 @@ angular
           $location.path('/');
           return;
         }
+        var lastRefreshed = Number(localStorage.getItem('lastRefreshed')) + (1000 * 60 * 60);
         var time = new Date(me.expires).getTime() - (1000 * 60 * 60 * 24);
-        if (Date.now() > time) {
+        if (Date.now() > time && Date.now() > lastRefreshed) {
+          localStorage.setItem('lastRefreshed', Date.now());
           var req = {
             method: 'POST',
             url: config.api + '/users/token/refresh',
