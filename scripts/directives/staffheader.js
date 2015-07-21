@@ -1,6 +1,6 @@
 angular
   .module('khe')
-  .directive('staffheader', ['$compile', 'Ticket', function ($compile, Ticket) {
+  .directive('staffheader', ['$compile', 'Ticket', 'User', function ($compile, Ticket, User) {
 
     var Models = {
       ticket: new Ticket()
@@ -23,6 +23,8 @@ angular
           }).length;
         }).
         error(function (data) {});
+
+        scope.logout = new User().logout;
 
       }
 

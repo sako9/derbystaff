@@ -9,6 +9,8 @@ angular
 
     var User = function () {
 
+      var self = this;
+
       /**
       * A socket connected to /users
       */
@@ -72,12 +74,19 @@ angular
       };
 
       /**
+      * Log a user out
+      */
+      this.logout = function () {
+        self.removeMe();
+        $location.path('/login');
+      };
+
+      /**
       * Refresh the user's token if necessary.
       * If the user's token doesn't need refreshed, the callback is called
       * immediately.
       * @param callback (Optional) called when finished
       */
-      var self = this;
       function refreshToken(callback) {
         var me = self.getMe();
         if (!me || !me.key || !me.expires || !me.refresh) {
@@ -105,6 +114,9 @@ angular
             me.expires = data.expires;
             self.setMe(me);
             return callback && callback();
+          }).
+          error(function (data) {
+            self.logout();
           });
         } else {
           return callback && callback();
