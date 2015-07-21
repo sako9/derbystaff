@@ -90,8 +90,8 @@ angular
             method: 'POST',
             url: config.api + '/users/token/refresh',
             data: {
-              key: me.key,
               client: config.client,
+              key: me.key,
               refresh: me.refresh
             }
           };
@@ -103,11 +103,6 @@ angular
             me.expires = data.expires;
             self.setMe(me);
             return callback && callback();
-          }).
-          error(function (data) {
-            // make them log in again
-            self.removeMe();
-            $location.path('/');
           });
         } else {
           return callback && callback();
