@@ -184,6 +184,17 @@
               <div class="small-12 large-6 columns">
                 <strong>Applied:</strong> {{user.application.created|relativeDate}}
               </div>
+              <requireadmin user="att.me">
+                <div class="small-12 large-6 columns">
+                  <strong>Options:</strong>
+                  <a class="black underline" ng-if="!att.del.check(user)" ng-click="att.del.toggle(user)">Delete</a>
+                  <div ng-if="att.del.check(user)">
+                    Are you sure?
+                    <a ng-click="att.del.yes(user)">Yes</a>
+                    <a ng-click="att.del.toggle(user)">No</a>
+                  </div>
+                </div>
+              </requireadmin>
             </div>
           </div>
         </div>

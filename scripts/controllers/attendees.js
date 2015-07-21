@@ -345,6 +345,47 @@ angular
 
     };
 
+    view.del = {
+
+      /**
+      * Toggle delete button visibility
+      * @param user A user object
+      */
+      toggle: function (user) {
+        if (this.deleteId == user._id) {
+          this.deleteId = '';
+        } else {
+          this.deleteId = user._id;
+        }
+      },
+
+      /**
+      * Check delete button visibility
+      * @param user A user object
+      */
+      check: function (user) {
+        return this.deleteId == user._id;
+      },
+
+      /**
+      * Delete the user
+      * @param user A user object
+      */
+      yes: function (user) {
+        Models.user.delete(user._id).
+        success(function (data) {
+          view.all = view.all.filter(function (u) {
+            return u._id != data._id;
+          });
+          reload();
+        }).
+        error(function (data) {
+          view.errors = data.errors;
+        });
+      }
+
+    };
+
     /**
     * Initialize the controller
     */
