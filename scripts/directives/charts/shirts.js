@@ -42,7 +42,7 @@ angular
             }
           });
 
-          $("#shirts.ct-chart").height(4 * 35);
+          $("#shirts.ct-chart").height(4 * 30);
 
         });
 
