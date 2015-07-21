@@ -29,12 +29,16 @@
       </div>
 
       <div class="row">
-        <h3>Attendees <span class="small grey">{{att.filter.current | capitalizeFirstLetter}} ({{att.users.length}})</span></h3>
+        <h3>Attendees
+          <span class="small grey">{{att.filter.current | capitalizeFirstLetter}} ({{att.users.length}})</span>
+          <span ng-if="query" class="small grey align-right bold">Results: {{filtered.length}}</span>
+        </h3>
       </div>
 
       <!-- Search box -->
       <div class="row">
         <input type="text" ng-model="query" placeholder="Search by name, email, school, phone, or any other user attribute">
+        <p ng-if="filtered.length < att.all.length"></p>
       </div>
 
       <!-- Loading circle -->
@@ -46,7 +50,7 @@
       </div>
 
       <!-- Each user with submitted application -->
-      <div class="row expandable-list-item" ng-repeat="user in att.users | filter:query | orderBy:'application.created':true" ng-if="user.application">
+      <div class="row expandable-list-item" ng-repeat="user in filtered = (att.users | filter:query | orderBy:'application.created':true)" ng-if="user.application">
         <!-- Content always shown -->
         <div class="row header cursor-pointer" ng-click="att.visibility.toggle(user)">
           <div class="small-9 columns">
