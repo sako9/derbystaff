@@ -127,6 +127,28 @@ angular
     function reload() {
       view.filter.init();
       view.filter.apply(view.filter.current);
+      estimateAttendees();
+    }
+
+    /**
+    * Get an estimate # of attendees
+    * Estimate is about 33% of Applied or 75% of RSVPs
+    */
+    function estimateAttendees() {
+      var minEst = (0.25) * view.applied.length;
+      if (view.going.length > minEst) {
+        var emin = (0.65) * view.going.length;
+        minEst = (minEst + emin) / 2;
+      }
+
+      var maxEst = (0.33) * view.applied.length;
+      if (view.going.length > maxEst) {
+        var emax = (0.85) * view.going.length;
+        maxEst = (maxEst + emax) / 2;
+      }
+
+      view.minimumEstimate = Math.floor(minEst);
+      view.maximumEstimate = Math.ceil(maxEst);
     }
 
     /**

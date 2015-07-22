@@ -2,6 +2,7 @@
   <requirestaff user="att.me" error="true">
     <staffheader></staffheader>
     <staffsidebar>
+      <strong>Estimated Attendees:</strong> {{att.minimumEstimate}} - {{att.maximumEstimate}}
       <fieldset>
         <legend>Filters</legend>
         <li><a ng-click="att.filter.apply('all')">All ({{att.all.length}})</a></li>
