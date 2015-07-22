@@ -23,7 +23,7 @@ angular
           });
 
           var labels = data.restrictions.map(function (r) {
-            return r.name;
+            return r.name + ' (' + r.count + ')';
           });
 
           var numbers = data.restrictions.map(function (r) {

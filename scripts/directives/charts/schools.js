@@ -23,7 +23,7 @@ angular
           });
 
           var labels = data.schools.map(function (r) {
-            return r.name;
+            return r.name + ' (' + r.count + ')';
           });
 
           var numbers = data.schools.map(function (r) {

@@ -16,7 +16,12 @@ angular
         Models.stats.shirts().
         success(function (data) {
 
-          var labels = ['Small', 'Medium', 'Large', 'X-Large'];
+          var labels = [
+            'Small (' + data.small + ')',
+            'Medium (' + data.medium + ')',
+            'Large (' + data.large + ')',
+            'X-Large (' + data.xlarge + ')'
+          ];
           var numbers = [
             data.small,
             data.medium,

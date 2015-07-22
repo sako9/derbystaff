@@ -125,3 +125,12 @@ fieldset legend {
 .ct-chart .ct-label.ct-vertical {
   line-height: 1rem;
 }
+
+.tooltip {
+  width: 3rem;
+  text-align: center;
+  background-color: #FAFAFA;
+  color: #4d4e51;
+  border: 1px solid #F4F4F4;
+  font-weight: bold;
+}

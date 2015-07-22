@@ -18,9 +18,8 @@ angular
 
       $chart.on('mouseenter', '.ct-point', function() {
         var $point = $(this),
-          value = $point.attr('ct:value'),
-          seriesName = $point.parent().attr('ct:series-name');
-        $toolTip.html(seriesName + '<br>' + value).show();
+          value = $point.attr('ct:value');
+        $toolTip.html(value).show();
       });
 
       $chart.on('mouseleave', '.ct-point', function() {
@@ -46,7 +45,7 @@ angular
         success(function (data) {
 
           var labels = data.months.map(function (month) {
-            return month.name;
+            return month.name + ' (' + month.count + ')';
           });
           var points = data.months.map(function (month) {
             return month.count;
