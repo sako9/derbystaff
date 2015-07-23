@@ -135,13 +135,13 @@ angular
     * Estimate is about 33% of Applied or 75% of RSVPs
     */
     function estimateAttendees() {
-      var minEst = (0.25) * view.applied.length;
+      var minEst = (0.30) * view.applied.length;
       if (view.going.length > minEst) {
         var emin = (0.65) * view.going.length;
         minEst = (minEst + emin) / 2;
       }
 
-      var maxEst = (0.33) * view.applied.length;
+      var maxEst = (0.50) * view.applied.length;
       if (view.going.length > maxEst) {
         var emax = (0.85) * view.going.length;
         maxEst = (maxEst + emax) / 2;
@@ -167,6 +167,10 @@ angular
       init: function () {
         view.applied = view.all.filter(function (user) {
           return user.application;
+        });
+
+        view.probable = view.all.filter(function (user) {
+          return user.application && user.application.probable;
         });
 
         view.going = view.all.filter(function (user) {
@@ -210,6 +214,9 @@ angular
             break;
           case 'applied':
             view.users = view.applied;
+            break;
+          case 'probable':
+            view.users = view.probable;
             break;
           case 'going':
             view.users = view.going;
@@ -400,6 +407,29 @@ angular
             return u._id != data._id;
           });
           reload();
+        }).
+        error(function (data) {
+          view.errors = data.errors;
+        });
+      }
+
+    };
+
+    view.prob = {
+
+      /**
+      * Toggle the probable status of the user
+      * @param user A user object
+      */
+      toggle: function (user) {
+        Models.application.updateById(user._id, {
+          probable: !user.application.probable
+        }).
+        success(function (user) {
+          view.all = view.all.map(function (u) {
+            if (u._id == user._id) u = user;
+            return u;
+          });
         }).
         error(function (data) {
           view.errors = data.errors;

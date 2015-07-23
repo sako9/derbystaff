@@ -2,11 +2,14 @@
   <requirestaff user="att.me" error="true">
     <staffheader></staffheader>
     <staffsidebar>
-      <strong>Estimated Attendees:</strong> {{att.minimumEstimate}} - {{att.maximumEstimate}}
+      <strong>Estimated Attendees:</strong> {{att.minimumEstimate}} - {{att.maximumEstimate}} <br>
+      <strong>Probable Attendees:</strong> {{att.probable.length}} <br>
+      <strong>RSVPs:</strong> {{att.going.length}}
       <fieldset>
         <legend>Filters</legend>
         <li><a ng-click="att.filter.apply('all')">All ({{att.all.length}})</a></li>
         <li><a ng-click="att.filter.apply('applied')">Applied ({{att.applied.length}})</a></li>
+        <li><a ng-click="att.filter.apply('probable')">Probable ({{att.probable.length}})</a></li>
         <li><a ng-click="att.filter.apply('going')">Going ({{att.going.length}})</a></li>
         <li><a ng-click="att.filter.apply('approved')">Approved ({{att.approved.length}})</a></li>
         <li><a ng-click="att.filter.apply('waitlisted')">Waitlisted ({{att.waitlisted.length}})</a></li>
@@ -58,6 +61,7 @@
             <strong>{{user.application.name}}</strong>
           </div>
           <div class="small-3 columns align-right">
+            <i class="fa fa-thumbs-up" ng-if="user.application.probable">&nbsp;&nbsp;</i>
             <i class="{{user.application.status|application:'icon'}}"></i>
           </div>
         </div>
@@ -198,6 +202,9 @@
                     <a ng-click="att.del.yes(user)">Yes</a>
                     <a ng-click="att.del.toggle(user)">No</a>
                   </div>
+                  <span ng-if="!att.del.check(user)">
+                    | <a ng-click="att.prob.toggle(user)" class="black underline">Probable</a>
+                  </span>
                 </div>
               </requireadmin>
             </div>
