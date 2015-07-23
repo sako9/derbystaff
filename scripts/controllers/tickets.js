@@ -116,7 +116,7 @@ angular
       /**
       * The currently applied filter
       */
-      current: 'all',
+      current: 'open',
 
       /**
       * Create arrays of each different type of ticket
@@ -147,7 +147,7 @@ angular
           case 'open':
             view.tickets = view.open;
             break;
-          case 'progress':
+          case 'in progress':
             view.tickets = view.progress;
             break;
           case 'closed':

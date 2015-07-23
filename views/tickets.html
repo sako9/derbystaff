@@ -4,7 +4,7 @@
   <staffsidebar>
     <li><a ng-click="ctrl.filter.apply('all')">All ({{ctrl.all.length}})</a></li>
     <li><a ng-click="ctrl.filter.apply('open')">Open ({{ctrl.open.length}})</a></li>
-    <li><a ng-click="ctrl.filter.apply('progress')">In Progress ({{ctrl.progress.length}})</a></li>
+    <li><a ng-click="ctrl.filter.apply('in progress')">In Progress ({{ctrl.progress.length}})</a></li>
     <li><a ng-click="ctrl.filter.apply('closed')">Closed ({{ctrl.closed.length}})</a></li>
   </staffsidebar>
 
@@ -21,6 +21,10 @@
 
     <div class="row">
       <h3>Tickets <span class="small grey">{{ctrl.open.length}} open, {{ctrl.progress.length}} in progress, {{ctrl.closed.length}} closed</span></h3>
+    </div>
+
+    <div class="row" ng-if="!ctrl.tickets.length">
+      <h4 class="grey">No tickets {{ctrl.filter.current}}</h4>
     </div>
 
     <div ng-repeat="ticket in ctrl.tickets | orderBy:'created':true" class="row expandable-list-item">
