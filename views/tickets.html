@@ -23,11 +23,16 @@
       <h3>Tickets <span class="small grey">{{ctrl.open.length}} open, {{ctrl.progress.length}} in progress, {{ctrl.closed.length}} closed</span></h3>
     </div>
 
+    <!-- Search box -->
+    <div class="row">
+      <input type="text" ng-model="query" placeholder="Type to search">
+    </div>
+
     <div class="row" ng-if="!ctrl.tickets.length">
       <h4 class="grey">No tickets {{ctrl.filter.current}}</h4>
     </div>
 
-    <div ng-repeat="ticket in ctrl.tickets | orderBy:'created':true" class="row expandable-list-item">
+    <div ng-repeat="ticket in ctrl.tickets | orderBy:'created':true | filter:query" class="row expandable-list-item">
       <!-- Header -->
       <div class="row header cursor-pointer" ng-click="ctrl.visibility.toggle(ticket)">
         <div class="small-9 columns">
