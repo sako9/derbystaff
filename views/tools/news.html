@@ -24,7 +24,7 @@
           {{person.email}}
         </div>
         <div class="small-3 columns small align-right">
-          {{person.created | relativeDate}}
+          <span am-time-ago="person.created"></span>
         </div>
       </div>
     </div>

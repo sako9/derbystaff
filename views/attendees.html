@@ -190,7 +190,7 @@
                 </requireadmin>
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Applied:</strong> {{user.application.created|relativeDate}}
+                <strong>Applied:</strong> <span am-time-ago="user.application.created"></span>
               </div>
               <requireadmin user="att.me">
                 <div class="small-12 large-6 columns">

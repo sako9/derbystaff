@@ -34,7 +34,7 @@
 
             <div class="small-11 columns">
               <span ng-bind-html="message.text|markdown|unsafe"></span>
-              <span class="small grey">{{message.created|relativeDate}}</span>
+              <span class="small grey" am-time-ago="message.created"></span>
             </div>
             <div class="small-1 columns align-right">
               <a ng-click="live.message.delete(message)" class="black"><i class="fa fa-trash fa-2x"></i></a>

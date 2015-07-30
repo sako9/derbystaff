@@ -1,4 +1,4 @@
-angular.module('khe', ['ngRoute', 'ngCookies', 'btford.socket-io', 'angular-loading-bar']);
+angular.module('khe', ['ngRoute', 'ngCookies', 'btford.socket-io', 'angular-loading-bar', 'angularMoment']);
 
 angular
   .module('khe')
