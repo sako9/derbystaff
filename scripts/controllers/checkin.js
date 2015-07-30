@@ -64,13 +64,7 @@ angular
     function listen() {
       // Application created
       Models.application.socket().on('create', function (user) {
-        var i = view.users.length;
-        while(i--) {
-          if (view.users[i]._id == user._id) {
-            view.users[i] = user;
-            break;
-          }
-        }
+        view.users.push(user);
         updateCount();
       });
 
