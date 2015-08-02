@@ -7,19 +7,115 @@ angular
         controller: 'HomeCtrl as home'
       });
   }])
-  .controller('HomeCtrl', ['User', '$location', function (User, $location) {
+  .controller('HomeCtrl', ['User', 'Stats', '$location', function (User, Stats, $location) {
 
-    var self = this;
-    var user = new User();
-    self.user = user.getMe();
+    var view = this;
 
-    if (!self.user || self.user.role == 'attendee') {
+    var Models = {
+      user: new User(),
+      stats: new Stats()
+    };
+
+    view.user = Models.user.getMe();
+
+    if (!view.user || view.user.role == 'attendee') {
       $location.path('/login');
     }
 
-    self.logout = function () {
+    view.logout = function () {
       user.removeMe();
       $location.path('/login');
+    };
+
+    /**
+    * Registration graph
+    */
+    view.registrations = {
+      graph: null,
+      get: function (query) {
+        var self = this;
+        self.graph = null;
+        Models.stats.registrations(query).
+        success(function (data) {
+          self.graph = data;
+        });
+      }
+    };
+
+    /**
+    * Shirts graph
+    */
+    view.shirts = {
+      graph: null,
+      get: function (query) {
+        var self = this;
+        self.graph = null;
+        Models.stats.shirts(query).
+        success(function (data) {
+          self.graph = data;
+        });
+      }
+    };
+
+    /**
+    * Dietary restrictions graph
+    */
+    view.dietary = {
+      graph: null,
+      get: function (query) {
+        var self = this;
+        self.graph = null;
+        Models.stats.dietary(query).
+        success(function (data) {
+          self.graph = data;
+        });
+      }
+    };
+
+    /**
+    * Gender graph
+    */
+    view.gender = {
+      graph: null,
+      get: function (query) {
+        var self = this;
+        self.graph = null;
+        Models.stats.gender(query).
+        success(function (data) {
+          self.graph = data;
+        });
+      }
+    };
+
+    /**
+    * Schools graph
+    */
+    view.schools = {
+      graph: null,
+      get: function (query) {
+        var self = this;
+        self.graph = null;
+        Models.stats.schools(query).
+        success(function (data) {
+          self.graph = data;
+        });
+      }
+    };
+
+    // Initialize graphs
+    view.registrations.get();
+    view.shirts.get();
+    view.dietary.get();
+    view.gender.get();
+    view.schools.get();
+
+    // Call filters
+    view.filterCharts = function (query) {
+      view.registrations.get(query);
+      view.shirts.get(query);
+      view.dietary.get(query);
+      view.gender.get(query);
+      view.schools.get(query);
     };
 
   }]);

@@ -10,10 +10,11 @@ angular
       /**
       * Number of people registered each month
       */
-      this.registrations = function () {
+      this.registrations = function (query) {
         var req = user.authorize({
           method: 'GET',
-          url: config.api + '/stats/registrations'
+          url: config.api + '/stats/registrations',
+          params: query
         });
         return $http(req);
       };
@@ -21,10 +22,11 @@ angular
       /**
       * Get the t-shirt size distribution
       */
-      this.shirts = function () {
+      this.shirts = function (query) {
         var req = user.authorize({
           method: 'GET',
-          url: config.api + '/stats/shirts'
+          url: config.api + '/stats/shirts',
+          params: query
         });
         return $http(req);
       };
@@ -32,10 +34,11 @@ angular
       /**
       * Get the distribution of dietary restrictions
       */
-      this.dietary = function () {
+      this.dietary = function (query) {
         var req = user.authorize({
           method: 'GET',
-          url: config.api + '/stats/dietary'
+          url: config.api + '/stats/dietary',
+          params: query
         });
         return $http(req);
       };
@@ -43,10 +46,11 @@ angular
       /**
       * Get a gender comparison
       */
-      this.gender = function () {
+      this.gender = function (query) {
         var req = user.authorize({
           method: 'GET',
-          url: config.api + '/stats/gender'
+          url: config.api + '/stats/gender',
+          params: query
         });
         return $http(req);
       };
@@ -54,10 +58,11 @@ angular
       /**
       * Get a distribution of schools
       */
-      this.schools = function () {
+      this.schools = function (query) {
         var req = user.authorize({
           method: 'GET',
-          url: config.api + '/stats/schools'
+          url: config.api + '/stats/schools',
+          params: query
         });
         return $http(req);
       };

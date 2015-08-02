@@ -1,10 +1,11 @@
 <requirestaff user="home.user" error="true">
   <staffheader></staffheader>
   <staffsidebar>
-      <li><a>All</a></li>
-      <li><a>Approved</a></li>
-      <li><a>Going</a></li>
-      <li><a>Checked In</a></li>
+      <li><a ng-click="home.filterCharts()">All</a></li>
+      <li><a ng-click="home.filterCharts({status: 'approved'})">Approved</a></li>
+      <li><a ng-click="home.filterCharts({probable: true})">Probable</a></li>
+      <li><a ng-click="home.filterCharts({going: true})">RSVPd</a></li>
+      <li><a ng-click="home.filterCharts({checked: true})">Checked In</a></li>
     </staffsidebar>
 
     <br>
@@ -22,11 +23,11 @@
         <h3>Dashboard <span class="small grey">Enjoy some numbers.</span></h3>
       </div>
 
-      <registrations></registrations>
-      <shirts></shirts>
-      <dietary></dietary>
-      <gender></gender>
-      <schools></schools>
+      <registrations ng-if="home.registrations.graph" graph="home.registrations.graph"></registrations>
+      <shirts ng-if="home.shirts.graph" graph="home.shirts.graph"></shirts>
+      <dietary ng-if="home.dietary.graph" graph="home.dietary.graph"></dietary>
+      <gender ng-if="home.gender.graph" graph="home.gender.graph"></gender>
+      <schools ng-if="home.schools.graph" graph="home.schools.graph"></schools>
 
     </div>
 </requirestaff>
