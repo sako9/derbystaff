@@ -47,6 +47,9 @@ angular
 
         $("#shirts.ct-chart").height(4 * 35);
 
+        // Get the total # of shirts
+        scope.total = data.small + data.medium + data.large + data.xlarge;
+
       }
 
     };

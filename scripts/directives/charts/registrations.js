@@ -2,34 +2,6 @@ angular
   .module('khe')
   .directive('registrations', ['$compile', function ($compile) {
 
-    /**
-    * Add tooltips for viewing values at each point
-    */
-    function addTooltips() {
-      var $chart = $('#registrations.ct-chart');
-      var $toolTip = $chart
-        .append('<div class="tooltip"></div>')
-        .find('.tooltip')
-        .hide();
-
-      $chart.on('mouseenter', '.ct-point', function() {
-        var $point = $(this),
-          value = $point.attr('ct:value');
-        $toolTip.html(value).show();
-      });
-
-      $chart.on('mouseleave', '.ct-point', function() {
-        $toolTip.hide();
-      });
-
-      $chart.on('mousemove', function(event) {
-        $toolTip.css({
-          left: (event.offsetX || event.originalEvent.layerX) - $toolTip.width() / 2 + 50,
-          top: (event.offsetY || event.originalEvent.layerY) - $toolTip.height() + 80
-        });
-      });
-    }
-
     return {
 
       restrict: 'E',
@@ -69,7 +41,11 @@ angular
           }
         });
 
-        addTooltips();
+        // get total # of registrations
+        scope.total = 0;
+        for (var i = 0; i < points.length; i++) {
+          scope.total += points[i];
+        }
 
       }
 
