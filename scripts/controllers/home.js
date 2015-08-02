@@ -102,13 +102,6 @@ angular
       }
     };
 
-    // Initialize graphs
-    view.registrations.get();
-    view.shirts.get();
-    view.dietary.get();
-    view.gender.get();
-    view.schools.get();
-
     // Call filters
     view.filterCharts = function (query) {
       view.registrations.get(query);
@@ -117,5 +110,10 @@ angular
       view.gender.get(query);
       view.schools.get(query);
     };
+
+    // Initialize graphs
+    if (view.user) {
+      view.filterCharts();
+    }
 
   }]);
