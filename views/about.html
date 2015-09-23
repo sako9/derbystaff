@@ -1,0 +1,39 @@
+<requirestaff user="about.me" error="true">
+
+  <staffheader></staffheader>
+
+  <br>
+  <div class="row">
+    <div class="small-12 columns">
+
+      <h3>About <span class="small grey">Some useful links and stuff</span></h3>
+      <p>Put useful information for attendees to view via the mobile apps or website in here. This is formatted in Markdown.</p>
+      <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Need help? Click here for a Markdown Cheat Sheet.</a>
+      <hr>
+
+      <!-- The current page -->
+      <div class="small-12 columns">
+
+        <!-- Formatted page text -->
+        <div
+          class="cursor-pointer"
+          ng-if="about.page.text && !about.editing"
+          ng-bind-html="about.page.text|markdown|unsafe"
+          ng-click="about.update.edit()">
+        </div>
+
+        <!-- A text box if we don't have any text or if we are editing -->
+        <form ng-if="about.editing || !about.page.text" ng-submit="about.update.save()">
+          <textarea ng-model="about.update.text" rows="20"></textarea>
+          <button class="button">Save</button>
+          <button ng-if="about.page.text" class="button secondary" ng-click="about.update.cancel()">Cancel</button>
+        </form>
+
+        <p ng-model="about.update.text"></p>
+
+      </div>
+
+    </div>
+  </div>
+
+</requirestaff>
