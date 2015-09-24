@@ -9,6 +9,9 @@
       <h3>Live Feed <span class="small grey">{{live.messages.length}} messages sent</span></h3>
 
       <!-- New message -->
+      <p>
+        <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Need help? Click here for a Markdown Cheat Sheet.</a>
+      </p>
       <form ng-submit="live.message.create()">
         <div class="row">
           <div class="small-12 columns">
@@ -23,7 +26,11 @@
           </div>
         </div>
       </form>
-      <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Need help? Click here for a Markdown Cheat Sheet.</a>
+
+      <div ng-if="live.message.new.text">
+        <div ng-bind-html="live.message.new.text|markdown|unsafe"></div>
+        <hr>
+      </div>
 
       <!-- List of messages -->
       <div ng-repeat="message in live.messages | orderBy:'created':true" class="expandable-list-item">
