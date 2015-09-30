@@ -84,7 +84,40 @@
           </div>
           <div class="row">
             <div class="small-12 columns">
-              <strong>Phone:</strong> {{user.application.phone|formatPhone}}
+              <!-- Phone field -->
+              <strong>Phone:</strong>
+              <a
+                ng-if="checkin.phone.editingId != user._id"
+                ng-click="checkin.phone.edit(user)"
+                class="black underline">
+                {{user.application.phone|formatPhone}}
+              </a>
+
+              <!-- Edit phone form -->
+              <form
+                ng-if="checkin.phone.editingId == user._id"
+                ng-submit="checkin.phone.save(user)">
+                <br>
+                <div class="small-8 columns">
+                  <div class="row collapse prefix-radius">
+                    <div class="small-2 columns">
+                      <span class="prefix">Phone</span>
+                    </div>
+                    <div class="small-6 columns">
+                      <input type="text" placeholder="555-555-5555" ng-model="user.app.phone">
+                    </div>
+                    <!-- Submit button -->
+                    <div class="small-2 columns">
+                      <button class="button postfix">Save</button>
+                    </div>
+                    <!-- Cancel button -->
+                    <div class="small-2 columns">
+                      <button ng-click="checkin.phone.cancel(user)" class="button secondary postfix">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
             </div>
           </div>
         </div>

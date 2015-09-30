@@ -219,6 +219,50 @@ angular
 
     };
 
+    view.phone = {
+
+      editingId: null,
+      oldPhone: null,
+
+      /**
+      * Edit a user's phone number
+      */
+      edit: function (user) {
+        this.editingId = user._id;
+        this.oldPhone = user.application.phone;
+      },
+
+      /**
+      * Stop editing a user's phone number
+      */
+      cancel: function (user) {
+        this.editingId = null;
+        user.application.phone = this.oldPhone;
+        this.oldPhone = null;
+      },
+
+      /**
+      * Save the user's phone number
+      */
+      save: function (user) {
+        var self = this;
+        Models.application.updateById(user._id, {
+          phone: user.app.phone
+        }).
+        success(function (data) {
+          console.log('success', data);
+          view.errors = null;
+          self.editingId = null;
+          self.oldPhone = null;
+        }).
+        error(function (data) {
+          console.log('error', data);
+          view.errors = data.errors || ['An internal error occurred'];
+        });
+      }
+
+    };
+
     /**
     * Initialize controller
     */
