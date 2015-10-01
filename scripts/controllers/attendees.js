@@ -44,11 +44,6 @@ angular
     view.checked = [];
 
     /**
-    *
-    */
-    view.rsvpAndProbable = 0;
-
-    /**
     * Get a list of all users with applications
     */
     function get() {
@@ -60,15 +55,6 @@ angular
       }).
       error(function (data) {
         view.errors = data.errors || ['An internal error has occurred'];
-      });
-
-      Models.stats.count({probable: true, going: true}).
-      success(function (data) {
-        view.errors = null;
-        view.rsvpAndProbable = data.count;
-      }).
-      error(function (data) {
-        view.errors = data.errors;
       });
     }
 
