@@ -6,7 +6,7 @@ angular
       controller: 'AttendeesCtrl as att'
     });
   }])
-  .controller('AttendeesCtrl', ['User', 'Application', function (User, Application) {
+  .controller('AttendeesCtrl', ['User', 'Application', 'Stats', function (User, Application, Stats) {
 
     /**
     * The interface that a template can use. To see all variables available
@@ -16,7 +16,8 @@ angular
 
     var Models = {
       user: new User(),
-      application: new Application()
+      application: new Application(),
+      stats: new Stats()
     };
 
     /**
@@ -43,6 +44,11 @@ angular
     view.checked = [];
 
     /**
+    *
+    */
+    view.rsvpAndProbable = 0;
+
+    /**
     * Get a list of all users with applications
     */
     function get() {
@@ -54,6 +60,15 @@ angular
       }).
       error(function (data) {
         view.errors = data.errors || ['An internal error has occurred'];
+      });
+
+      Models.stats.count({probable: true, going: true}).
+      success(function (data) {
+        view.errors = null;
+        view.rsvpAndProbable = data.count;
+      }).
+      error(function (data) {
+        view.errors = data.errors;
       });
     }
 

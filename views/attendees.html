@@ -4,7 +4,8 @@
     <staffsidebar>
       <strong>Estimated Attendees:</strong> {{att.minimumEstimate}} - {{att.maximumEstimate}} <br>
       <strong>Probable Attendees:</strong> {{att.probable.length}} <br>
-      <strong>RSVPs:</strong> {{att.going.length}}
+      <strong>RSVPs:</strong> {{att.going.length}} <br>
+      <strong>RSVP and Probable:</strong> {{att.rsvpAndProbable}}
       <fieldset>
         <legend>Filters</legend>
         <li><a ng-click="att.filter.apply('all')">All ({{att.all.length}})</a></li>

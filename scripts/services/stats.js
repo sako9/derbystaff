@@ -67,6 +67,18 @@ angular
         return $http(req);
       };
 
+      /**
+      * Get a count of attendees
+      */
+      this.count = function (query) {
+        var req = user.authorize({
+          method: 'GET',
+          url: config.api + '/stats/count',
+          params: query
+        });
+        return $http(req);
+      };
+
     };
 
     return Stats;
