@@ -48,6 +48,13 @@
           </div>
           <div class="small-12 large-6 columns">
             <label>
+              Icon (<a href="http://fontawesome.io/icons/">Font Awesome</a> class name)
+              <i class="fa fa-{{schedule.event.new.icon}}"></i>
+              <input type="text" placeholder="calendar-o" ng-model="schedule.event.new.icon">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
               Location
               <input type="text" placeholder="Library" ng-model="schedule.event.new.location">
             </label>
@@ -115,6 +122,13 @@
           </div>
           <div class="small-12 large-6 columns">
             <label>
+              Icon (<a href="http://fontawesome.io/icons/">Font Awesome</a> class name)
+              <i class="fa fa-{{schedule.edit.event.icon}}"></i>
+              <input type="text" placeholder="calendar-o" ng-model="schedule.edit.event.icon">
+            </label>
+          </div>
+          <div class="small-12 large-6 columns">
+            <label>
               Location
               <input type="text" placeholder="Library" ng-model="schedule.edit.event.location">
             </label>
@@ -153,6 +167,7 @@
 
             <!-- Title and type -->
             <div class="small-8 columns">
+              <i ng-if="event.icon" class="fa fa-{{event.icon}}"></i>
               <strong>{{event.title}}</strong>
             </div>
             <div class="small-4 columns align-right">
@@ -182,14 +197,14 @@
             </div>
 
             <!-- Notify -->
-            <div class="small-12 large-6 columns" ng-if="event.notify">
+            <div class="small-12 large-6 columns end" ng-if="event.notify">
               <i class="fa align-fix fa-bell"></i>
               <span ng-if="event.notify">Notify</span>
               <span ng-if="!event.notify">Quiet</span>
             </div>
 
             <!-- Type -->
-            <div class="small-12 columns" ng-if="event.type">
+            <div class="small-12 large-6 columns end" ng-if="event.type">
               <i class="fa align-fix fa-tag"></i> {{event.type}}
             </div>
 

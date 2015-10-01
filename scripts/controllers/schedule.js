@@ -102,6 +102,7 @@ angular
         success(function (data) {
           view.errors = null;
           self.new = {};
+          reload();
         }).
         error(function (data) {
           view.errors = data.errors || ['An internal error had occurred'];
@@ -134,9 +135,12 @@ angular
       },
 
       save: function (event) {
+        var self = this;
         Models.event.update(this.event._id, this.event).
         success(function (data) {
           view.errors = null;
+          self.cancel();
+          reload();
         }).
         error(function (data) {
           view.errors = data.errors;
