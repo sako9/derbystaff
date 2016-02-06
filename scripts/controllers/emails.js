@@ -44,6 +44,13 @@ angular
     * An array of sent emails
     */
     view.emails = [];
+    view.delemail = function (email) {
+        Models.email.delete(email._id).success(function (data) {
+          view.errors = null;
+        }).error(function (data) {
+          view.errors = data.errors || ['An internal error has occurred'];
+        });
+   };
 
     /**
     * Initialize the list of emails and users

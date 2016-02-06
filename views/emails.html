@@ -83,6 +83,11 @@
               <div ng-bind-html="email.body|markdown|unsafe" class="scrollbox"></div>
             </div>
           </div>
+	  <div class="row">
+ 	     <div class="small-2 columns">
+              <a ng-click="ctrl.delemail(email)" class="black"><i class="fa fa-trash fa-2x"></i></a>
+            </div>
+          </div>
 
         </div>
       </div>

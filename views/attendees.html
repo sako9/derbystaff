@@ -215,7 +215,17 @@
       <div class="row expandable-list-item" ng-repeat="user in att.users | filter:query | orderBy:'time':true" ng-if="!user.application">
         <div class="row header">
           <div class="small-9 columns">
-            {{user.email}}
+            {{user.email}} 
+              <requireadmin user="att.me">
+                  <strong>Options:</strong>
+                  <a class="black underline" ng-if="!att.del.check(user)" ng-click="att.del.toggle(user)">Delete</a>
+                  <div ng-if="att.del.check(user)">
+                    Are you sure?
+                    <a ng-click="att.del.yes(user)">Yes</a>
+                    <a ng-click="att.del.toggle(user)">No</a>
+                </div>
+              </requireadmin>
+
           </div>
         </div>
       </div>

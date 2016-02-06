@@ -48,6 +48,19 @@ angular
         return $http(req);
       };
 
+      /**
+      * Delete an email
+      * @param id The email ID
+      * @return An $http promise
+      */
+      this.delete = function (id) {
+        var req = user.authorize({
+          method: 'DELETE',
+          url: config.api + '/emails/' + id
+        });
+        return $http(req);
+      };
+
     };
 
     return Email;
