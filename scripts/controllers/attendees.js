@@ -42,6 +42,7 @@ angular
     view.denied = [];
     view.travel = [];
     view.checked = [];
+    view.staff = [];
 
     /**
     * Get a list of all users with applications
@@ -167,7 +168,7 @@ angular
       */
       init: function () {
         view.applied = view.all.filter(function (user) {
-          return user.application;
+          return user.application && user.role =='attendee';
         });
 
         view.probable = view.all.filter(function (user) {
@@ -201,6 +202,10 @@ angular
         view.checked = view.all.filter(function (user) {
           return user.application && user.application.checked;
         });
+	
+	view.staff = view.all.filter(function (user){
+	 return user.application && (user.role == 'staff' || user.role =='admin');
+	});
       },
 
       /**
@@ -239,6 +244,9 @@ angular
             break;
           case 'checked':
             view.users = view.checked;
+            break;
+          case 'staff':
+	    view.users = view.staff;
             break;
         }
       }

@@ -17,6 +17,8 @@
         <li><a ng-click="att.filter.apply('denied')">Denied ({{att.denied.length}})</a></li>
         <li><a ng-click="att.filter.apply('travel')">Travel Requests ({{att.travel.length}})</a></li>
         <li><a ng-click="att.filter.apply('checked')">Checked In ({{att.checked.length}})</a></li>
+	<li><a ng-click="att.filter.apply('staff')">Staff ({{att.staff.length}})</a></li>
+
       </fieldset>
       <li><a href="/attendees/checkin" class="button small-12 columns">Check In</a></li>
     </staffsidebar>
@@ -177,6 +179,7 @@
                           <option value="attendee">Attendee</option>
                           <option value="staff">Staff</option>
                           <option value="admin">Admin</option>
+			  <option value="mentor">Mentor</option>
                         </select>
                       </div>
                       <div class="small-2 columns">
