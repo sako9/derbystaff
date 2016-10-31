@@ -86,7 +86,7 @@ gulp.task('build-bower-js', function () {
 */
 gulp.task('lint', function () {
   return gulp.src(scripts)
-    .pipe(jshint())
+    .pipe(jshint({ strict : false }))
     .pipe(jshint.reporter(stylish));
 });
 

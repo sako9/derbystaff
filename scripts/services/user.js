@@ -5,9 +5,27 @@
 */
 angular
   .module('khe')
-  .factory('User', ['$http', '$cookieStore', '$filter', 'socketFactory', '$location', function ($http, $cookies, $filter, socket, $location) {
+  .factory('User', ['$http','$window', '$cookieStore', '$filter', 'socketFactory', '$location', function ($http, $window, $cookieStore ,$filter, socket, $location) {
+      
+      
+      function base64_decode( str )   {  
+            console.log(str);
+        if (window.atob) // Internet Explorer 10 and above  
+            return decodeURIComponent(escape(window.atob( str )));  
+        else  
+        {  
+            // Cross-Browser Method (compressed)  
+          
+            // Create Base64 Object  
+            var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/\r\n/g,"\n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}  
+            // Encode the String  
+            return decodeURIComponent(escape(Base64.decode( str )));  
+        }  
+    }  
 
     var User = function () {
+        
+        
 
       var self = this;
 
@@ -32,45 +50,36 @@ angular
       * @param me An object representing the logged-in user
       *           {key: String, token: String, role: String, refresh: String, expires: Date}
       */
-      this.setMe = function (me) {
-        if (Modernizr.localstorage) {
-          localStorage.setItem('me', angular.toJson(me));
-        } else {
-          $cookies.put('me', me);
-        }
+      this.setMe = function (token) {
+        $window.localStorage['derby-token'] = token;
       };
 
       /**
       * Retrieve the logged in user from local storage
       * @return {key: String, token: String, role: String, refresh: String, expires: Date}
       */
-      this.getMe = function () {
-        if (Modernizr.localstorage) {
-          return angular.fromJson(localStorage.getItem('me'));
-        } else {
-          return $cookies.get('me');
+      this.getToken = function () {
+          return $window.localStorage['derby-token'];
+      };
+        
+    this.getMe = function () {
+        var token = self.getToken();
+        if (!token) {
+          $location.path('/');
+          return;
         }
+        console.log(token);
+        payload = token.split('.')[1];
+        payload = base64_decode(payload)
+        payload = JSON.parse(payload);
+        return payload;
       };
 
       /**
       * Delete the stored user
       */
       this.removeMe = function () {
-        var req = this.authorize({
-          method: 'DELETE',
-          url: config.api + '/users/token',
-          data: {
-            client: config.client
-          }
-        });
-        $http(req).
-        success(function () {}).
-        error(function () {});
-        if (Modernizr.localstorage) {
-          localStorage.removeItem('me');
-        } else {
-          $cookies.remove('me');
-        }
+        $window.localStorage.removeItem('derby-token');
       };
 
       /**
@@ -82,44 +91,26 @@ angular
       };
 
       /**
-      * Refresh the user's token if necessary.
-      * If the user's token doesn't need refreshed, the callback is called
+      * Check if logged in.
+      * If the user's token exists and hasn't expired, the callback is called
       * immediately.
       * @param callback (Optional) called when finished
       */
       function refreshToken(callback) {
-        var me = self.getMe();
-        if (!me || !me.key || !me.expires || !me.refresh) {
+        var token = self.getToken();
+        if (!token) {
           $location.path('/');
           return;
         }
-        var lastRefreshed = Number(localStorage.getItem('lastRefreshed')) + (1000 * 60 * 60);
-        var time = new Date(me.expires).getTime() - (1000 * 60 * 60 * 24);
-        if (Date.now() > time && Date.now() > lastRefreshed) {
-          localStorage.setItem('lastRefreshed', Date.now());
-          var req = {
-            method: 'POST',
-            url: config.api + '/users/token/refresh',
-            data: {
-              client: config.client,
-              key: me.key,
-              refresh: me.refresh
-            }
-          };
-          $http(req).
-          success(function (data) {
-            me.key = data.key;
-            me.token = data.token;
-            me.refresh = data.refresh;
-            me.expires = data.expires;
-            self.setMe(me);
-            return callback && callback();
-          }).
-          error(function (data) {
+        payload = token.split('.')[1];
+        payload = base64_decode(payload)
+        payload = JSON.parse(payload);
+        console.log(payload);
+        if(payload.exp < Date.now() / 1000){
+            console.log(payload);
             self.logout();
-          });
-        } else {
-          return callback && callback();
+        }else{
+            return callback && callback();
         }
       }
 
@@ -130,11 +121,10 @@ angular
       */
       this.authorize = function (req) {
         refreshToken();
-        var me = this.getMe();
-        var encoded = $filter('base64Encode')(me.key + ':' + me.token);
+        var token = this.getToken();
         var ext = {
           headers: {
-            'Authorization': 'Basic ' + encoded
+            'Authorization': 'Bearer '+ token
           }
         };
         angular.extend(req, ext);
@@ -151,7 +141,6 @@ angular
           method: 'POST',
           url: config.api + '/users',
           data: {
-            client: config.client,
             email: user.email,
             password: user.password
           }
@@ -185,11 +174,10 @@ angular
       this.login = function (user) {
         var req = {
           method: 'POST',
-          url: config.api + '/users/token',
+          url: config.api + '/login',
           data: {
             email: user.email,
-            password: user.password,
-            client: config.client
+            password: user.password
           }
         };
         return $http(req);

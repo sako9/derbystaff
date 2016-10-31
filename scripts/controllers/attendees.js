@@ -51,7 +51,7 @@ angular
       Models.application.list().
       success(function (data) {
         view.errors = null;
-        view.all = data.users;
+        view.all = data;
         reload();
       }).
       error(function (data) {
@@ -451,6 +451,6 @@ angular
     * Initialize the controller
     */
     get();
-    listen();
+    //listen();
 
   }]);

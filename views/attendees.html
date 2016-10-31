@@ -55,15 +55,15 @@
       </div>
 
       <!-- Each user with submitted application -->
-      <div class="row expandable-list-item" ng-repeat="user in filtered = (att.users | filter:query | orderBy:'application.created':true)" ng-if="user.application">
+      <div class="row expandable-list-item" ng-repeat="user in filtered = (att.users | filter:query | orderBy:'_application.created':true)" ng-if="user._application">
         <!-- Content always shown -->
         <div class="row header cursor-pointer" ng-click="att.visibility.toggle(user)">
           <div class="small-9 columns">
-            <strong>{{user.application.name}}</strong>
+            <strong>{{user._application.firstName}} {{user._application.lastName}}</strong>
           </div>
           <div class="small-3 columns align-right">
-            <i class="fa fa-thumbs-up" ng-if="user.application.probable">&nbsp;&nbsp;</i>
-            <i class="{{user.application.status|application:'icon'}}"></i>
+            <i class="fa fa-thumbs-up" ng-if="user._application.probable">&nbsp;&nbsp;</i>
+            <i class="{{user._application.status|application:'icon'}}"></i>
           </div>
         </div>
         <!-- Content shown on expansion -->
@@ -73,46 +73,40 @@
             <!-- Static information (the user's application) -->
             <div class="row">
               <div class="small-12 large-6 columns">
-                <strong>School:</strong> {{user.application.school}}
+                <strong>School:</strong> {{user._application.school}}
               </div>
               <div class="small-12 large-6 columns">
                 <strong>Email:</strong> <a class="black" href="mailto:{{user.email}}">{{user.email}}</a>
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Year:</strong> {{user.application.year}}
+                <strong>Year:</strong> {{user._application.grade}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Phone:</strong> {{user.application.phone|formatPhone}}
+                <strong>Phone:</strong> {{user._application.phone|formatPhone}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Age:</strong> {{user.application.age}}
+                <strong>Age:</strong> {{user._application.age}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Travel Required:</strong> {{user.application.travel|application:'travel'}}
+                <strong>Dietary Restrictions:</strong> {{user._application.dietary}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>First Hackathon:</strong> {{user.application.first|application:'first'}}
+                <strong>Major:</strong> {{user._application.major}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Dietary Restrictions:</strong> {{user.application.dietary|application:'dietary'}}
+                <strong>Shirt Size:</strong> {{user._application.shirtSize|application:'shirt'}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Major:</strong> {{user.application.major}}
+                <strong>Gender:</strong> {{user._application.gender|application:'gender'|capitalizeFirstLetter}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Shirt Size:</strong> {{user.application.shirt|application:'shirt'}}
+                <strong>RSVP:</strong> {{user._application.going|application:'going'}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Gender:</strong> {{user.application.gender|application:'gender'|capitalizeFirstLetter}}
+                <strong>Resume:</strong> <a ng-if="user._application.resume" href="{{user._application.resume|application:'resumeLink'}}">Download</a> <span ng-if="!user._application.resume">None</span>
               </div>
               <div class="small-12 large-6 columns">
-                <strong>RSVP:</strong> {{user.application.going|application:'going'}}
-              </div>
-              <div class="small-12 large-6 columns">
-                <strong>Resume:</strong> <a ng-if="user.application.resume" href="{{user.application.resume|application:'resumeLink'}}">Download</a> <span ng-if="!user.application.resume">None</span>
-              </div>
-              <div class="small-12 large-6 columns">
-                <strong>Link:</strong> <a ng-if="user.application.link" class="black" target="_blank" href="{{user.application.link|fullUrl}}">{{user.application.link}}</a> <span ng-if="!user.application.link">None</span>
+                <strong>Link:</strong> <a ng-if="user._application.link" class="black" target="_blank" href="{{user._application.link|fullUrl}}">{{user.application.link}}</a> <span ng-if="!user.application.link">None</span>
               </div>
             </div>
             <hr>
@@ -121,12 +115,12 @@
               <div class="small-12 large-6 columns">
                 <strong>Status:</strong>
                 <a ng-if="!user.editingStatus" class="black cursor-pointer" ng-click="att.status.edit(user)">
-                  {{user.application.status|capitalizeFirstLetter}}
+                  {{user._application.status|capitalizeFirstLetter}}
                 </a>
                 <span ng-if="user.editingStatus">
                   <div class="row collapse">
                     <div class="small-8 columns">
-                      <select ng-model="user.application.status">
+                      <select ng-model="user._application.status">
                         <option value="pending">Pending</option>
                         <option value="waitlisted">Waitlisted</option>
                         <option value="denied">Denied</option>
@@ -150,7 +144,7 @@
                 <span ng-if="user.editingChecked">
                   <div class="row collapse">
                     <div class="small-8 columns">
-                      <select ng-model="user.application.checked"
+                      <select ng-model="user._application.checked"
                               ng-options="o.v as o.n for o in [{ n: 'Yes', v: true }, { n: 'No', v: false }]">
                       </select>
                     </div>
@@ -193,7 +187,7 @@
                 </requireadmin>
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Applied:</strong> <span am-time-ago="user.application.created"></span>
+                <strong>Applied:</strong> <span am-time-ago="user._application.created"></span>
               </div>
               <requireadmin user="att.me">
                 <div class="small-12 large-6 columns">
@@ -215,7 +209,7 @@
       </div>
 
       <!-- Each user that doesn't have a submitted application -->
-      <div class="row expandable-list-item" ng-repeat="user in att.users | filter:query | orderBy:'time':true" ng-if="!user.application">
+      <div class="row expandable-list-item" ng-repeat="user in att.users | filter:query | orderBy:'time':true" ng-if="!user._application">
         <div class="row header">
           <div class="small-9 columns">
             {{user.email}} 

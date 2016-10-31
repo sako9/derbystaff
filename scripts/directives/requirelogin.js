@@ -3,7 +3,7 @@ angular
   .directive('requirelogin', ['$location', 'User', function ($location, User) {
     var user = new User().getMe();
     if (!user) {
-      $location.path('/login');
+      //$location.path('/login');
     }
 
     return {

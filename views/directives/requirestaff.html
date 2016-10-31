@@ -1,7 +1,7 @@
-<span ng-if="user.role == 'staff' || user.role == 'admin'" ng-transclude>
+<span ng-if="user.role == 'staff' || user.role == 'attendee'" ng-transclude>
 </span>
 
-<div ng-if="(user.role == 'attendee') && error">
+<div ng-if="(user.role == 'attendeet') && error">
   <div data-alert class="alert-box alert">
     You must be a staff member to access this area
     <a href="#" class="close">&times;</a>

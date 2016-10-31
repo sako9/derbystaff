@@ -3,7 +3,7 @@ angular
   .directive('requireadmin', ['$location', 'User', function ($location, User) {
     var user = new User().getMe();
     if (!user || user.role != 'admin') {
-      $location.path('/login');
+      //$location.path('/login');
     }
 
     return {

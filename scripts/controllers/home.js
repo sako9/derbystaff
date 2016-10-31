@@ -17,8 +17,10 @@ angular
     };
 
     view.user = Models.user.getMe();
+    console.log("view");
+    console.log(view.user);
 
-    if (!view.user || view.user.role == 'attendee') {
+    if (!view.user ) {
       $location.path('/login');
     }
 

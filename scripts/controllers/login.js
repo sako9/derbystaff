@@ -18,7 +18,8 @@ angular
       }).
       success(function (data) {
         self.errors = null;
-        user.setMe(data);
+        user.setMe(data.token);
+        console.log("did this hppen");
         $location.path('/');
       }).
       error(function (data) {

@@ -21,8 +21,7 @@ angular
       var connection;
       this.socket = function () {
         if (!connection) {
-          var me = user.getMe();
-          var encoded = $filter('base64Encode')(me.key + ':' + me.token);
+          var me = user.getToken();
           var s = io.connect(config.api + '/users/application', {
             query: 'authorization=' + encoded
           });
@@ -74,7 +73,7 @@ angular
       this.list = function () {
         var req = user.authorize({
           method: 'GET',
-          url: config.api + '/users/application'
+          url: config.api + '/users'
         });
         return $http(req);
       };
