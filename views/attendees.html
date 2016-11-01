@@ -103,7 +103,7 @@
                 <strong>RSVP:</strong> {{user._application.going|application:'going'}}
               </div>
               <div class="small-12 large-6 columns">
-                <strong>Resume:</strong> <a ng-if="user._application.resume" href="{{user._application.resume|application:'resumeLink'}}">Download</a> <span ng-if="!user._application.resume">None</span>
+                <strong>Resume:</strong> <a ng-if="user._application.resume" href="{{user._application.resume}}">Download</a> <span ng-if="!user._application.resume">None</span>
               </div>
               <div class="small-12 large-6 columns">
                 <strong>Link:</strong> <a ng-if="user._application.link" class="black" target="_blank" href="{{user._application.link|fullUrl}}">{{user.application.link}}</a> <span ng-if="!user.application.link">None</span>
