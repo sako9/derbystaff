@@ -15,12 +15,14 @@ angular
         var data = scope.graph;
 
         var labels = [
+          'Small (' + data.xsmall + ')',
           'Small (' + data.small + ')',
           'Medium (' + data.medium + ')',
           'Large (' + data.large + ')',
           'X-Large (' + data.xlarge + ')'
         ];
         var numbers = [
+          data.xsmall,
           data.small,
           data.medium,
           data.large,
@@ -48,7 +50,7 @@ angular
         $("#shirts.ct-chart").height(4 * 35);
 
         // Get the total # of shirts
-        scope.total = data.small + data.medium + data.large + data.xlarge;
+        scope.total = data.xsmall + data.small + data.medium + data.large + data.xlarge;
 
       }
 
