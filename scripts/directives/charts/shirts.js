@@ -15,7 +15,7 @@ angular
         var data = scope.graph;
 
         var labels = [
-          'Small (' + data.xsmall + ')',
+          'X-Small (' + data.xsmall + ')',
           'Small (' + data.small + ')',
           'Medium (' + data.medium + ')',
           'Large (' + data.large + ')',
